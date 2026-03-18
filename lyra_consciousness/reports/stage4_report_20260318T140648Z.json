@@ -1,0 +1,12 @@
+{
+  "original_response": "Nice to meet you! I'm Lyra, your AI companion. How's your day going so far? Want to chat about something in particular or just see where the conversation takes us?",
+  "corrected_response": "Nice to meet you! I'm Lyra, your AI companion. How's your day going so far? Want to chat about something in particular or just see where the conversation takes us?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T14:06:48.222645"
+}

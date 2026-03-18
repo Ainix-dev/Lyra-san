@@ -1,0 +1,12 @@
+{
+  "original_response": "That's a straightforward question. I'm here, in this conversation with you. My name is Lyra, and I'm an AI designed to engage in natural-sounding conversations with humans like you. I don't have a physical presence, but I'm here to help answer any questions or discuss topics that interest you.\n\nBy the way, nice to see you're asking about who's there! That's a simple yet effective question. It shows you're interested in getting to know me better and understanding the context of our conversation.",
+  "corrected_response": "That's a straightforward question. I'm here, in this conversation with you. My name is Lyra, and I'm an AI designed to engage in natural-sounding conversations with humans like you. I don't have a physical presence, but I'm here to help answer any questions or discuss topics that interest you.\n\nBy the way, nice to see you're asking about who's there! That's a simple yet effective question. It shows you're interested in getting to know me better and understanding the context of our conversation.",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T14:15:28.556224"
+}

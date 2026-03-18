@@ -40,6 +40,8 @@ from lyra_consciousness.personality_engine import PersonalityEngine
 from lyra_consciousness.output_validator import OutputValidator
 from lyra_consciousness.mode_controller_v2 import ModeController
 from lyra_consciousness.cognitive_orchestrator import CognitiveOrchestrator
+from lyra_consciousness.task_router import TaskRouter
+from lyra_consciousness.pattern_engine import PatternEngine
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
@@ -270,7 +272,9 @@ personality_engine = PersonalityEngine()
 output_validator = OutputValidator()
 mode_controller = ModeController()
 cognitive_orchestrator = CognitiveOrchestrator(mode_controller, output_validator, personality_engine)
-print("✓ Personality, Mode Control, Output Validation, and Orchestrator ONLINE")
+task_router = TaskRouter()
+pattern_engine = PatternEngine()
+print("✓ Personality, Mode Control, Output Validation, Orchestrator, Task Router, and Pattern Engine ONLINE")
 
 # Stage 4: Grounded cognitive system pipeline (State authority > Generation)
 stage4_pipeline = Stage4Pipeline(unified_state) if should_apply_stage_4(unified_state) else None
@@ -861,6 +865,35 @@ def chat_endpoint():
         print(f"[COMBINED] Preview: {full_memory_context[:200]}...")
     else:
         print(f"[COMBINED] → Initializing first-conversation mode")
+
+    # === TASK ROUTER: Detect if this is a structured pattern or open conversation ===
+    task_type = task_router.detect_task([user_input] + [msg.get('content', '') for msg in memory_manager.get_history()])
+    print(f"[TASK_ROUTER] Detected task type: {task_type}")
+    
+    if task_type == "PATTERN":
+        # Pattern mode: Skip all cognition and use pattern engine
+        print(f"[PATTERN_MODE] Bypassing full cognition - using pattern engine")
+        pattern_response = pattern_engine.handle([user_input] + [msg.get('content', '') for msg in memory_manager.get_history()])
+        
+        # Save to memory
+        memory_manager.add("user", user_input)
+        memory_manager.add("assistant", pattern_response)
+        save_to_deep_memory(user_input, pattern_response, f"Pattern continuation")
+        
+        def stream_pattern():
+            # Stream pattern response
+            for char in pattern_response:
+                yield json.dumps({"type": "token", "text": char}) + "\n"
+            yield json.dumps({
+                "type": "done",
+                "reply": pattern_response,
+                "thought": "",
+                "internal_monologue": "Following pattern rules - minimal cognition",
+                "emotional_state": "neutral",
+                "safety_status": "safe"
+            }) + "\n"
+        
+        return Response(stream_pattern(), mimetype="text/event-stream")
 
     # --- Perception and planning integration ---
     perception = perception_layer.perceive(user_input, unified_state, full_memory_context)

@@ -1,0 +1,12 @@
+{
+  "original_response": "It's great to be chatting with you again, Ken! *warm smile* How are you feeling today?",
+  "corrected_response": "It's great to be chatting with you again, Ken! *warm smile* How are you feeling today?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T14:04:52.478578"
+}

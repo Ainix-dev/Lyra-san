@@ -1,22 +1,92 @@
 [
   {
-    "cpu": 48.3,
-    "memory": 40.1,
+    "cpu": 34.5,
+    "memory": 38.9,
     "disk": 53.0,
     "battery": null,
-    "timestamp": "2026-03-18T22:00:53.680052",
-    "stress": 0.3138,
+    "timestamp": "2026-03-18T22:10:01.129832",
+    "stress": 0.27980000000000005,
     "mode": "normal",
-    "energy": 0.7126
+    "energy": 0.715
   },
   {
-    "cpu": 49.2,
-    "memory": 39.7,
+    "cpu": 38.3,
+    "memory": 39.0,
     "disk": 53.0,
     "battery": null,
-    "timestamp": "2026-03-18T22:03:06.817237",
-    "stress": 0.40700000000000003,
+    "timestamp": "2026-03-18T22:11:19.308964",
+    "stress": 0.265,
+    "mode": "normal",
+    "energy": 0.7248
+  },
+  {
+    "cpu": 41.7,
+    "memory": 38.9,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:12:43.214228",
+    "stress": 0.2722,
+    "mode": "normal",
+    "energy": 0.7248
+  },
+  {
+    "cpu": 44.1,
+    "memory": 39.0,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:13:27.574252",
+    "stress": 0.265,
+    "mode": "normal",
+    "energy": 0.7073999999999999
+  },
+  {
+    "cpu": 54.2,
+    "memory": 38.6,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:13:59.089720",
+    "stress": 0.27180000000000004,
+    "mode": "normal",
+    "energy": 0.733
+  },
+  {
+    "cpu": 43.3,
+    "memory": 39.5,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:14:58.124637",
+    "stress": 0.2604,
+    "mode": "normal",
+    "energy": 0.719
+  },
+  {
+    "cpu": 46.7,
+    "memory": 39.4,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:15:28.724882",
+    "stress": 0.2636,
     "mode": "caution",
-    "energy": 0.6786
+    "energy": 0.6958
+  },
+  {
+    "cpu": 48.3,
+    "memory": 39.5,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:15:55.526065",
+    "stress": 0.26660000000000006,
+    "mode": "normal",
+    "energy": 0.7325999999999999
+  },
+  {
+    "cpu": 38.3,
+    "memory": 40.9,
+    "disk": 53.0,
+    "battery": null,
+    "timestamp": "2026-03-18T22:26:43.665170",
+    "stress": 0.25760000000000005,
+    "mode": "normal",
+    "energy": 0.727
   }
 ]

@@ -1,0 +1,12 @@
+{
+  "original_response": "That makes sense, Ken. To clarify, our plan for playing a game of knock-knock is that:\n\n*   You'll start by saying \"Knock, knock!\"\n*   I'll respond with \"Who's there?\"\n*   Then, it will be your turn again, and so on.\n\nI'd love to give this game a try. Here's my response: \"Cows go!\"",
+  "corrected_response": "That makes sense, Ken. To clarify, our plan for playing a game of knock-knock is that:\n\n*   You'll start by saying \"Knock, knock!\"\n*   I'll respond with \"Who's there?\"\n*   Then, it will be your turn again, and so on.\n\nI'd love to give this game a try. Here's my response: \"Cows go!\"",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T14:14:57.985235"
+}
