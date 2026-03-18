@@ -185,6 +185,42 @@
         "priority": 0.5,
         "created": "2026-03-18T21:45:12.303064",
         "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:48:53.972423",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:50:06.875573",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:52:11.984080",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:53:40.717413",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T22:00:53.513126",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: answer_with_clarity",
+        "priority": 0.5,
+        "created": "2026-03-18T22:03:06.674700",
+        "status": "active"
       }
     ]
   },
@@ -219,30 +255,6 @@
     "emotional_stability": 0.5
   },
   "evolution_log": [
-    {
-      "timestamp": "2026-03-18T10:32:40.639761",
-      "event": "New short-term goal: Answer this question clearly"
-    },
-    {
-      "timestamp": "2026-03-18T10:32:40.640078",
-      "event": "Updated archetype: seeker"
-    },
-    {
-      "timestamp": "2026-03-18T10:32:40.640090",
-      "event": "Self-model confidence: 60%"
-    },
-    {
-      "timestamp": "2026-03-18T10:32:40.640776",
-      "event": "Updated belief: Test belief (confidence now 0.50)"
-    },
-    {
-      "timestamp": "2026-03-18T10:33:04.863113",
-      "event": "New belief: Test belief 1773801184863101408 (confidence 0.75)"
-    },
-    {
-      "timestamp": "2026-03-18T10:33:04.864055",
-      "event": "New short-term goal: Answer this question clearly"
-    },
     {
       "timestamp": "2026-03-18T10:33:04.864463",
       "event": "Updated archetype: seeker"
@@ -618,12 +630,36 @@
     {
       "timestamp": "2026-03-18T21:45:12.303096",
       "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:48:53.972438",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:50:06.875592",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:52:11.984096",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:53:40.717429",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T22:00:53.513142",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T22:03:06.674715",
+      "event": "Internal goal added: Follow plan: answer_with_clarity (priority 0.5)"
     }
   ],
   "active_context": {
-    "current_topic": "well thanks for understanding Lyra I mean it's for your own good",
+    "current_topic": "uhm can you explain your internal map?",
     "unresolved_tension": null,
-    "learning_edge": "contextual"
+    "learning_edge": "clarity"
   },
   "self_narrative": [
     {

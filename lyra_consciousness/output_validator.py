@@ -13,7 +13,7 @@ class OutputValidator:
     def __init__(self):
         self.validation_rules = {
             "no_system_tags": {
-                "pattern": r"\[REASONING\]|\[MEMORY\]|\[INFERENCE\]|\[INTERNAL\]",
+                "pattern": r"\[\w+[\s\w]*\]",  # Catch any [...] tag pattern
                 "message": "System tags detected in output",
                 "severity": "critical"
             },
@@ -66,7 +66,7 @@ class OutputValidator:
             if len(response) < 200:
                 violations.append("REFLECT mode requires more depth")
         elif mode == "CHAT":
-            if _has_excessive_emojis(response):
+            if self._has_excessive_emojis(response):
                 violations.append("CHAT mode should minimize emoji use")
         
         is_valid = len(violations) == 0
@@ -84,13 +84,13 @@ class OutputValidator:
         """Remove system artifacts and internal tags."""
         sanitized = response
         
-        # Remove internal tags
-        sanitized = re.sub(r"\[\w+\sTAG\]", "", sanitized)
-        sanitized = re.sub(r"\[INTERNAL.*?\]", "", sanitized)
+        # Remove all [...] tag patterns (MEMORY ANALYSIS, [REASONING], [INTERNAL], etc.)
+        sanitized = re.sub(r"\[\w+[\s\w]*\]", "", sanitized)
         
         # Remove excessive meta-language
         sanitized = re.sub(r"As an AI,?\s*", "", sanitized, flags=re.IGNORECASE)
         sanitized = re.sub(r"I should note that\s*", "", sanitized, flags=re.IGNORECASE)
+        sanitized = re.sub(r"Let me (note|clarify|explain)\s*", "", sanitized, flags=re.IGNORECASE)
         
         # Clean up extra whitespace
         sanitized = re.sub(r"\s+", " ", sanitized).strip()

@@ -1426,5 +1426,101 @@
       "uncertainties": []
     },
     "output": "[REASONING: Pros Cons]\nConfidence: 81%\n\n[READY FOR GENERATION]\n"
+  },
+  {
+    "timestamp": "2026-03-18T22:00:35.442949",
+    "input": "yeah that's why I need to back up your memories",
+    "problem": {
+      "timestamp": "2026-03-18T22:00:35.442903",
+      "input": "yeah that's why I need to back up your memories",
+      "problem_type": "analytical",
+      "complexity": "simple",
+      "key_concepts": [],
+      "requires_reasoning": true,
+      "domain": "general"
+    },
+    "reasoning_paths": [
+      {
+        "approach": "first_principles",
+        "description": "Break down to fundamental truths",
+        "reasoning": "Working from fundamentals: . Core principles: What are the basics?",
+        "confidence": 0.8
+      },
+      {
+        "approach": "pattern_matching",
+        "description": "Compare to similar problems",
+        "reasoning": "Similar patterns seen with this type of problem: What worked before?",
+        "confidence": 0.7
+      },
+      {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      }
+    ],
+    "verification": {
+      "timestamp": "2026-03-18T22:00:35.442932",
+      "paths_analyzed": 3,
+      "consensus": "Multiple perspectives converge on core issue",
+      "contradictions": [],
+      "strongest_path": {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      },
+      "confidence_level": 0.88,
+      "uncertainties": []
+    },
+    "output": "[REASONING: Evidence Based]\nConfidence: 88%\n\n[READY FOR GENERATION]\n"
+  },
+  {
+    "timestamp": "2026-03-18T22:02:36.051331",
+    "input": "uhm can you explain your internal map?",
+    "problem": {
+      "timestamp": "2026-03-18T22:02:36.051277",
+      "input": "uhm can you explain your internal map?",
+      "problem_type": "analytical",
+      "complexity": "simple",
+      "key_concepts": [],
+      "requires_reasoning": true,
+      "domain": "general"
+    },
+    "reasoning_paths": [
+      {
+        "approach": "first_principles",
+        "description": "Break down to fundamental truths",
+        "reasoning": "Working from fundamentals: . Core principles: What are the basics?",
+        "confidence": 0.8
+      },
+      {
+        "approach": "pattern_matching",
+        "description": "Compare to similar problems",
+        "reasoning": "Similar patterns seen with this type of problem: What worked before?",
+        "confidence": 0.7
+      },
+      {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      }
+    ],
+    "verification": {
+      "timestamp": "2026-03-18T22:02:36.051313",
+      "paths_analyzed": 3,
+      "consensus": "Multiple perspectives converge on core issue",
+      "contradictions": [],
+      "strongest_path": {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      },
+      "confidence_level": 0.88,
+      "uncertainties": []
+    },
+    "output": "[REASONING: Evidence Based]\nConfidence: 88%\n\n[READY FOR GENERATION]\n"
   }
 ]

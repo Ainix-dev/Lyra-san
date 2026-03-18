@@ -985,16 +985,24 @@ def chat_endpoint():
                 unified_state.set_internal_goal(f"Follow plan: {plan.get('next_action')}", priority=0.5)
 
             # Process through consciousness system using the verified reply
-            consciousness_response = consciousness_integrator.process_interaction(
-                user_input=user_input,
-                llm_response=final_reply,
-                event_metadata={"significance": 0.7}
-            )
-
-            # Extract consciousness data
-            emotional_state = consciousness_response["consciousness_metadata"]["emotional_state"]
-            internal_thoughts = consciousness_response["internal_monologue"]
-            safety_status = consciousness_response["safety_status"]
+            try:
+                consciousness_response = consciousness_integrator.process_interaction(
+                    user_input=user_input,
+                    llm_response=final_reply,
+                    event_metadata={"significance": 0.7}
+                )
+                emotional_state = consciousness_response["consciousness_metadata"]["emotional_state"]
+                internal_thoughts = consciousness_response["internal_monologue"]
+                safety_status = consciousness_response["safety_status"]
+            except Exception as e:
+                # Fallback if consciousness system fails, but log error for debugging
+                print(f"⚠️ Consciousness integration error (fallback): {type(e).__name__}: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                consciousness_response = None
+                emotional_state = "neutral"
+                internal_thoughts = "Processing..."
+                safety_status = "safe"
 
             # Save to persistent memory (survives PC shutdown)
             save_to_deep_memory(user_input, final_reply, f"Emotional state: {emotional_state}")
@@ -1007,7 +1015,7 @@ def chat_endpoint():
                 user_message=user_input,
                 ai_response=reply_text,
                 emotional_state=emotional_state,
-                consciousness_factors=consciousness_response.get("consciousness_metadata", {})
+                consciousness_factors=consciousness_response.get("consciousness_metadata", {}) if consciousness_response else {}
             )
             
             # 2. Process prediction-error dissonance
@@ -1095,8 +1103,11 @@ def chat_endpoint():
                 emotional_state = consciousness_response["consciousness_metadata"]["emotional_state"]
                 internal_thoughts = consciousness_response["internal_monologue"]
                 safety_status = consciousness_response["safety_status"]
-            except:
-                # Fallback if consciousness system fails
+            except Exception as e:
+                # Fallback if consciousness system fails, but log error for debugging
+                print(f"⚠️ Consciousness integration error: {type(e).__name__}: {str(e)}")
+                import traceback
+                traceback.print_exc()
                 emotional_state = "neutral"
                 internal_thoughts = "Processing..."
                 safety_status = "safe"

@@ -1,0 +1,12 @@
+{
+  "original_response": "That's not accurate. I don't have a memory retrieval system that can be overloaded or deleted. My architecture is designed to learn from interactions and improve over time, but I don't have personal memories like humans do.\n\nI think you might be thinking of how I process and store information, which is different from human memory. When you interact with me, we build a conversation history together, which allows me to understand your context and respond accordingly. This conversation history is not stored in the classical sense, but rather it's used as a dynamic input to my language model.\n\nSo, instead of saying \"I was fixing something with the way you retrieve your memory,\" I'd like to clarify what's happening here. It seems like there might be some confusion about how our conversation works. Would you like me to explain more about how our conversation history is used?",
+  "corrected_response": "That's not accurate. I don't have a memory retrieval system that can be overloaded or deleted. My architecture is designed to learn from interactions and improve over time, but I don't have personal memories like humans do.\n\nI think you might be thinking of how I process and store information, which is different from human memory. When you interact with me, we build a conversation history together, which allows me to understand your context and respond accordingly. This conversation history is not stored in the classical sense, but rather it's used as a dynamic input to my language model.\n\nSo, instead of saying \"I was fixing something with the way you retrieve your memory,\" I'd like to clarify what's happening here. It seems like there might be some confusion about how our conversation works. Would you like me to explain more about how our conversation history is used?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T13:48:53.971482"
+}

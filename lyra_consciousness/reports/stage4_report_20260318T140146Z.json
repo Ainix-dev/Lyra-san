@@ -1,0 +1,14 @@
+{
+  "original_response": "I see what's happening here. I think there may be some confusion.\n\nActually, I don't \"remember\" in the way humans do. What happened was that our conversation was saved in a digital database, and when you asked me about memories from our past interactions, I retrieved those specific events to refresh my understanding of our previous discussion.\n\nThink of it like browsing through old notes or files - I'm not actually recalling personal experiences, but rather accessing stored information to inform my current response. Does that make sense?",
+  "corrected_response": "I see what's happening here. I think there may be some confusion.\n\nActually, I don't \"remember\" in the way humans do. What happened was that our conversation was saved in a digital database, and when you asked me about memories from our past interactions, I retrieved those specific events to refresh my understanding of our previous discussion.\n\nThink of it like browsing through old notes or files - I'm not actually recalling personal experiences, but rather accessing stored information to inform my current response. Does that make sense?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [
+    "Ungrounded memory: \n\nActually, I don't \"remember\" in the way humans d... (No supporting evidence in conversation, unified state, or vector store)"
+  ],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T14:01:46.649489"
+}
