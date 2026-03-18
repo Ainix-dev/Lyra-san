@@ -1,0 +1,52 @@
+[
+  {
+    "timestamp": "2026-03-18T09:57:36.033581",
+    "input": "Based on our past conversations, what pattern do you notice in how I think?",
+    "problem": {
+      "timestamp": "2026-03-18T09:57:36.033531",
+      "input": "Based on our past conversations, what pattern do you notice in how I think?",
+      "problem_type": "analytical",
+      "complexity": "simple",
+      "key_concepts": [
+        "Based"
+      ],
+      "requires_reasoning": true,
+      "domain": "general"
+    },
+    "reasoning_paths": [
+      {
+        "approach": "first_principles",
+        "description": "Break down to fundamental truths",
+        "reasoning": "Working from fundamentals: Based. Core principles: What are the basics?",
+        "confidence": 0.8
+      },
+      {
+        "approach": "pattern_matching",
+        "description": "Compare to similar problems",
+        "reasoning": "Similar patterns seen with Based: What worked before?",
+        "confidence": 0.7
+      },
+      {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      }
+    ],
+    "verification": {
+      "timestamp": "2026-03-18T09:57:36.033563",
+      "paths_analyzed": 3,
+      "consensus": "Multiple perspectives converge on core issue",
+      "contradictions": [],
+      "strongest_path": {
+        "approach": "evidence_based",
+        "description": "What evidence supports each view?",
+        "reasoning": "What evidence or data supports each perspective?",
+        "confidence": 0.85
+      },
+      "confidence_level": 0.88,
+      "uncertainties": []
+    },
+    "output": "[REASONING: Evidence Based]\nConfidence: 88%\n\n[READY FOR GENERATION]\n"
+  }
+]
