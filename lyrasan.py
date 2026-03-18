@@ -1137,5 +1137,22 @@ if __name__ == "__main__":
         print("   • Optimized text parsing (>10x faster)")
         print("   • Efficient memory management")
         print("   • Lightning-fast response generation\n")
-    
-    app.run(host="127.0.0.1", port=5000)
+
+    # Allow override from environment and avoid port conflict
+    default_port = int(os.environ.get("LYRA_PORT", 5000))
+    port = default_port
+    import socket
+    for i in range(0, 10):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                s.bind(("127.0.0.1", port))
+            break
+        except OSError:
+            port += 1
+
+    if port != default_port:
+        print(f"⚠ Port {default_port} in use; switching to {port}")
+    print(f"→ Running on: http://127.0.0.1:{port}")
+    app.run(host="127.0.0.1", port=port)
+
