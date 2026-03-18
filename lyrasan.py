@@ -42,6 +42,7 @@ from lyra_consciousness.mode_controller_v2 import ModeController
 from lyra_consciousness.cognitive_orchestrator import CognitiveOrchestrator
 from lyra_consciousness.task_router import TaskRouter
 from lyra_consciousness.pattern_engine import PatternEngine
+from lyra_consciousness.tts_engine import TTSEngine
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
@@ -274,7 +275,8 @@ mode_controller = ModeController()
 cognitive_orchestrator = CognitiveOrchestrator(mode_controller, output_validator, personality_engine)
 task_router = TaskRouter()
 pattern_engine = PatternEngine()
-print("✓ Personality, Mode Control, Output Validation, Orchestrator, Task Router, and Pattern Engine ONLINE")
+tts_engine = TTSEngine(voice_model="en_US-lessac-medium", enable_cache=True)  # High-quality female voice
+print("✓ Personality, Mode Control, Output Validation, Orchestrator, Task Router, Pattern Engine, and TTS ONLINE")
 
 # Stage 4: Grounded cognitive system pipeline (State authority > Generation)
 stage4_pipeline = Stage4Pipeline(unified_state) if should_apply_stage_4(unified_state) else None
@@ -598,6 +600,8 @@ HTML_TEMPLATE = f"""
     <script>
         const chatBox = document.getElementById('chat-box');
         const inputField = document.getElementById('user-input');
+        let audioContext = null;
+        let audioSource = null;
 
         function appendMessage(sender, text, isThought=false) {{
             const msgDiv = document.createElement('div');
@@ -620,6 +624,33 @@ HTML_TEMPLATE = f"""
                 element.textContent += text[i];
                 chatBox.scrollTop = chatBox.scrollHeight;
                 await new Promise(resolve => setTimeout(resolve, speed));
+            }}
+        }}
+        
+        async function playAudio(audioBase64) {{
+            try {{
+                // Decode base64 to binary
+                const binaryString = atob(audioBase64);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {{
+                    bytes[i] = binaryString.charCodeAt(i);
+                }}
+                
+                // Create audio context if needed
+                if (!audioContext) {{
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }}
+                
+                // Decode and play audio
+                const audioBuffer = await audioContext.decodeAudioData(bytes.buffer);
+                audioSource = audioContext.createBufferSource();
+                audioSource.buffer = audioBuffer;
+                audioSource.connect(audioContext.destination);
+                audioSource.start(0);
+                
+                console.log('✓ Playing Lyra voice');
+            }} catch (e) {{
+                console.error('Audio playback error:', e);
             }}
         }}
 
@@ -650,6 +681,7 @@ HTML_TEMPLATE = f"""
                 let buffer = '';
                 let replyMsg = null;
                 let isFirstToken = true;
+                let hasAudio = false;
                 
                 while (true) {{
                     const {{ done, value }} = await reader.read();
@@ -681,6 +713,12 @@ HTML_TEMPLATE = f"""
                                 const span = replyMsg.querySelector('.reply-text');
                                 span.textContent += chunk.text;
                                 chatBox.scrollTop = chatBox.scrollHeight;
+                            }}
+                            else if (chunk.type === 'audio' && chunk.data) {{
+                                // Play audio synchronously with text
+                                console.log('🔊 Received audio chunk (' + chunk.data.length + ' bytes)');
+                                hasAudio = true;
+                                await playAudio(chunk.data);
                             }}
                             else if (chunk.type === 'done') {{
                                 // Response complete - show consciousness data
@@ -999,6 +1037,20 @@ def chat_endpoint():
                 print(f"[VALIDATOR] Violations: {violations} - using sanitized version")
             else:
                 print(f"[VALIDATOR] Output passed validation")
+            
+            # === TTS: Synthesize audio for the response ===
+            print(f"[TTS] Synthesizing voice for: {final_reply[:80]}...")
+            audio_bytes = tts_engine.synthesize_to_bytes(final_reply)
+            has_audio = len(audio_bytes) > 0
+            
+            if has_audio:
+                print(f"[TTS] ✓ Audio synthesized ({len(audio_bytes)} bytes)")
+                # Stream audio chunks
+                import base64
+                audio_b64 = base64.b64encode(audio_bytes).decode('utf-8')
+                yield json.dumps({"type": "audio", "data": audio_b64, "format": "wav"}) + "\n"
+            else:
+                print(f"[TTS] ⚠️ No audio (Piper unavailable)")
 
             # Choose and execute cognitive action
             chosen_action = action_controller.choose_action(plan)
@@ -1068,7 +1120,7 @@ def chat_endpoint():
             learning_stats = learning_system.get_learning_stats()
             print(f"[LEARNING] Interaction recorded - Adaptability: {learning_stats.get('adaptability', 0):.0%}, Confidence: {learning_stats.get('confidence', 0):.0%}")
             
-            # Send completion signal with consciousness data
+            # Send completion signal with consciousness data + audio metadata
             yield json.dumps({
                 "type": "done", 
                 "thought": thought_text, 
@@ -1079,6 +1131,7 @@ def chat_endpoint():
                 "perception": perception,
                 "plan": plan,
                 "action_result": action_result,
+                "audio_available": has_audio,
                 "emergence_state": {
                     "resource_stress": resource_integrity.stress_level,
                     "anxiety_level": dissonance_engine.anxiety_level,
@@ -1173,6 +1226,19 @@ def chat_endpoint():
             learning_stats = learning_system.get_learning_stats()
             print(f"[LEARNING] Interaction recorded (fallback) - Adaptability: {learning_stats.get('adaptability', 0):.0%}")
             
+            # === TTS: Synthesize audio for the fallback response ===
+            print(f"[TTS] Synthesizing voice for fallback: {final_reply[:80]}...")
+            audio_bytes = tts_engine.synthesize_to_bytes(final_reply)
+            has_audio = len(audio_bytes) > 0
+            
+            if has_audio:
+                print(f"[TTS] ✓ Audio synthesized ({len(audio_bytes)} bytes)")
+                import base64
+                audio_b64 = base64.b64encode(audio_bytes).decode('utf-8')
+                yield json.dumps({"type": "audio", "data": audio_b64, "format": "wav"}) + "\n"
+            else:
+                print(f"[TTS] ⚠️ No audio (Piper unavailable)")
+            
             # Send full response at once
             for char in final_reply:
                 yield json.dumps({"type": "token", "text": char}) + "\n"
@@ -1189,6 +1255,7 @@ def chat_endpoint():
                 "perception": perception,
                 "plan": plan,
                 "action_result": action_result,
+                "audio_available": has_audio,
                 "emergence_state": {
                     "resource_stress": resource_integrity.stress_level,
                     "anxiety_level": dissonance_engine.anxiety_level,
