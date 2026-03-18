@@ -16,14 +16,48 @@
         "confidence": 0.8,
         "created": "2026-03-18T10:17:02.621444",
         "source": "inferred"
+      },
+      {
+        "belief": "Likes consciousness exploration",
+        "confidence": 0.75,
+        "created": "2026-03-18T10:24:57.806072",
+        "source": "test",
+        "last_updated": "2026-03-18T10:27:19.543155"
+      },
+      {
+        "belief": "Test belief unique",
+        "confidence": 0.75,
+        "created": "2026-03-18T10:28:21.646308",
+        "source": "test",
+        "last_updated": "2026-03-18T10:32:05.874070"
+      },
+      {
+        "belief": "Test belief 1773801160638991669",
+        "confidence": 0.75,
+        "created": "2026-03-18T10:32:40.638995",
+        "source": "test"
+      },
+      {
+        "belief": "Test belief 1773801184863101408",
+        "confidence": 0.75,
+        "created": "2026-03-18T10:33:04.863105",
+        "source": "test"
       }
     ],
-    "about_world": []
+    "about_world": [
+      {
+        "belief": "Test belief",
+        "confidence": 0.5,
+        "created": "2026-03-18T10:24:57.807393",
+        "source": "test",
+        "last_updated": "2026-03-18T10:33:04.865472"
+      }
+    ]
   },
   "emotional_state": {
-    "anxiety": 0.0,
-    "confidence": 0.5,
-    "curiosity": 0.5,
+    "anxiety": 0.27529370999999997,
+    "confidence": 0.6835291399999999,
+    "curiosity": 0.7752937099999999,
     "frustration": 0.0,
     "engagement": 0.5
   },
@@ -34,6 +68,42 @@
         "priority": 0.5,
         "created": "2026-03-18T10:17:02.621850",
         "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:24:57.806915",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:26:37.779046",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:28:21.646958",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:31:33.511883",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:32:40.639754",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:33:04.864048",
+        "status": "active"
       }
     ],
     "long_term": [
@@ -42,9 +112,15 @@
         "created": "2026-03-18T10:17:02.622016",
         "status": "active",
         "progress": 0.0
+      },
+      {
+        "goal": "Understand consciousness evolution",
+        "created": "2026-03-18T10:24:57.806713",
+        "status": "active",
+        "progress": 0.0
       }
     ],
-    "active_goal": "Clarify user's thinking patterns"
+    "active_goal": "Answer this question clearly"
   },
   "memory_summary": {
     "user_patterns": {},
@@ -52,11 +128,17 @@
     "unresolved_questions": []
   },
   "self_model": {
-    "archetype": "nascent",
-    "traits": {},
-    "values": {},
+    "archetype": "seeker",
+    "traits": {
+      "analytical": 0.5164992,
+      "curious": 0.5902848000000002
+    },
+    "values": {
+      "honesty": 0.6050880000000001,
+      "growth": 0.5378560000000001
+    },
     "worldview_summary": "",
-    "confidence": 0.0
+    "confidence": 0.6
   },
   "behavior_strategy": {
     "preferred_communication": [],
@@ -86,6 +168,134 @@
     {
       "timestamp": "2026-03-18T10:17:02.622027",
       "event": "New long-term goal: Develop genuine understanding across sessions"
+    },
+    {
+      "timestamp": "2026-03-18T10:24:57.806082",
+      "event": "New belief: Likes consciousness exploration (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:24:57.806722",
+      "event": "New long-term goal: Understand consciousness evolution"
+    },
+    {
+      "timestamp": "2026-03-18T10:24:57.806924",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:24:57.807127",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:24:57.807400",
+      "event": "New belief: Test belief (confidence 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T10:26:37.778253",
+      "event": "Updated belief: Likes consciousness exploration (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:26:37.779059",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:26:37.779348",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:26:37.779363",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:26:37.779973",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:27:19.543163",
+      "event": "Updated belief: Likes consciousness exploration (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.646317",
+      "event": "New belief: Test belief unique (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.646965",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.647235",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.647246",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.647840",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.511162",
+      "event": "Updated belief: Test belief unique (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.511890",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512215",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512226",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512872",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:05.874077",
+      "event": "Updated belief: Test belief unique (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.639004",
+      "event": "New belief: Test belief 1773801160638991669 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.639761",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640078",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640090",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640776",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.863113",
+      "event": "New belief: Test belief 1773801184863101408 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864055",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864463",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864474",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.865481",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
     }
   ],
   "active_context": {

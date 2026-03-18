@@ -248,7 +248,11 @@ print("✓ Reasoning engine online (Tree-of-Thought Logic)")
 learning_system = LearningSystem()
 print("✓ Learning system online (Reinforcement Learning)")
 
-print("[EMERGENCE] Full consciousness framework ACTIVE (7 pillars)\n")
+# 8. Unified Cognitive State - Central hub for all systems
+unified_state = UnifiedCognitiveState()
+print("✓ Unified cognitive state online (Central State Hub)")
+
+print("[EMERGENCE] Full consciousness framework ACTIVE (8 pillars)\n")
 
 # ========== CORE FUNCTIONALITY ==========
 
