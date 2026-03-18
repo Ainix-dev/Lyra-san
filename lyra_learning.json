@@ -7,7 +7,7 @@
     "storytelling": 0.5,
     "technical_depth": 0.5,
     "humor": 0.5,
-    "brevity": 0.5588235294117647,
+    "brevity": 0.7285004632396419,
     "verbosity": 0.5,
     "creativity": 0.5,
     "pragmatism": 0.5,
@@ -26,14 +26,20 @@
   "strategy_effectiveness": {
     "social": {},
     "social:brevity": {
-      "times_used": 1,
-      "avg_satisfaction": 0.8,
-      "success_rate": 0.8
+      "times_used": 3,
+      "avg_satisfaction": 0.8166666666666668,
+      "success_rate": 0.8166666666666668
     },
     "social:asking_clarifying_questions": {
       "times_used": 1,
       "avg_satisfaction": 0.8,
       "success_rate": 0.8
+    },
+    "practical_help": {},
+    "practical_help:brevity": {
+      "times_used": 1,
+      "avg_satisfaction": 0.75,
+      "success_rate": 0.75
     }
   },
   "history": [
@@ -44,9 +50,33 @@
       "user_reaction": "positive",
       "satisfaction_score": 0.8,
       "turn_number": 1
+    },
+    {
+      "timestamp": "2026-03-18T09:56:23.605294",
+      "user_input": "Hello",
+      "ai_response": "Hi there!",
+      "user_reaction": "positive",
+      "satisfaction_score": 0.8,
+      "turn_number": 2
+    },
+    {
+      "timestamp": "2026-03-18T09:56:23.605529",
+      "user_input": "How are you?",
+      "ai_response": "I'm doing well!",
+      "user_reaction": "positive",
+      "satisfaction_score": 0.75,
+      "turn_number": 3
+    },
+    {
+      "timestamp": "2026-03-18T09:56:23.605759",
+      "user_input": "Thanks",
+      "ai_response": "You're welcome!",
+      "user_reaction": "positive",
+      "satisfaction_score": 0.85,
+      "turn_number": 4
     }
   ],
   "preferences": {},
-  "interaction_count": 1,
-  "last_updated": "2026-03-18T09:51:32.982804"
+  "interaction_count": 4,
+  "last_updated": "2026-03-18T09:56:23.605802"
 }

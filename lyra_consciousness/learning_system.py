@@ -264,8 +264,9 @@ class LearningSystem:
                 key=lambda x: x[1].get("success_rate", 0),
                 reverse=True
             )
+            # Safely extract strategy name (split on rightmost ":")
             preferences["preferred_strategies"] = [
-                s[0].split(":")[1] for s in sorted_strategies[:3]
+                s[0].rsplit(":", 1)[-1] for s in sorted_strategies[:3]
             ]
         
         # Patterns in problem types
