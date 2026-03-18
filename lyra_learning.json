@@ -1,0 +1,52 @@
+{
+  "user_name": "unknown",
+  "learning_start": "2026-03-18T09:51:32.982744",
+  "skill_weights": {
+    "direct_explanation": 0.5,
+    "socratic_questioning": 0.5,
+    "storytelling": 0.5,
+    "technical_depth": 0.5,
+    "humor": 0.5,
+    "brevity": 0.5588235294117647,
+    "verbosity": 0.5,
+    "creativity": 0.5,
+    "pragmatism": 0.5,
+    "empathy": 0.5,
+    "philosophical_reasoning": 0.5,
+    "technical_support": 0.5,
+    "creative_writing": 0.5,
+    "tutoring": 0.5,
+    "casual_conversation": 0.5,
+    "asking_clarifying_questions": 0.5588235294117647,
+    "providing_examples": 0.5,
+    "referencing_past_conversations": 0.5,
+    "expressing_uncertainty": 0.5,
+    "humor_in_responses": 0.5
+  },
+  "strategy_effectiveness": {
+    "social": {},
+    "social:brevity": {
+      "times_used": 1,
+      "avg_satisfaction": 0.8,
+      "success_rate": 0.8
+    },
+    "social:asking_clarifying_questions": {
+      "times_used": 1,
+      "avg_satisfaction": 0.8,
+      "success_rate": 0.8
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2026-03-18T09:51:32.982766",
+      "user_input": "Hello Lyra",
+      "ai_response": "Hello! How are you?",
+      "user_reaction": "positive",
+      "satisfaction_score": 0.8,
+      "turn_number": 1
+    }
+  ],
+  "preferences": {},
+  "interaction_count": 1,
+  "last_updated": "2026-03-18T09:51:32.982804"
+}

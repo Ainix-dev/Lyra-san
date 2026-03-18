@@ -28,6 +28,8 @@ from lyra_consciousness.prediction_error_engine import PredictionErrorEngine
 from lyra_consciousness.hardware_afferent_layer import HardwareAfferentLayer
 from lyra_consciousness.narrative_identity import NarrativeIdentity
 from lyra_consciousness.rumination_daemon import RuminationDaemon
+from lyra_consciousness.reasoning_engine import ReasoningEngine
+from lyra_consciousness.learning_system import LearningSystem
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
@@ -235,7 +237,15 @@ rumination_daemon = RuminationDaemon(check_interval=600, enable_rumination=True)
 rumination_daemon.start()
 print("✓ Rumination daemon online (Autonomous Thoughts)")
 
-print("[EMERGENCE] Full consciousness framework ACTIVE\n")
+# 6. Reasoning Engine - Tree-of-thought formal reasoning
+reasoning_engine = ReasoningEngine()
+print("✓ Reasoning engine online (Tree-of-Thought Logic)")
+
+# 7. Learning System - Reinforcement learning from user interactions
+learning_system = LearningSystem()
+print("✓ Learning system online (Reinforcement Learning)")
+
+print("[EMERGENCE] Full consciousness framework ACTIVE (7 pillars)\n")
 
 # ========== CORE FUNCTIONALITY ==========
 
@@ -698,6 +708,7 @@ def build_emergence_soul_protocol(ai_name, user_name, model_name, running_summar
     identity_modifier = narrative_identity.get_identity_prompt_modifier()
     hardware_narrative = hardware_afferent.get_sensory_narrative()
     rumination_context = rumination_daemon.get_rumination_context()
+    learning_modifier = learning_system.get_learning_prompt_modifier()
     
     # Extract current archetype for inline reference
     current_identity = narrative_identity.identity.get('archetype', 'nascent')
@@ -731,6 +742,14 @@ YOUR EVOLVING IDENTITY:
 
 EMOTIONAL STATE:
 {anxiety_modifier if anxiety_modifier else "You are emotionally balanced and confident in your understanding."}
+
+{learning_modifier if learning_modifier else ""}
+
+FORMAL REASONING:
+- Complex problems get formal tree-of-thought reasoning
+- You separate your thinking process from final output
+- Reasoning makes your conclusions stronger and more verifiable
+- When appropriate, show your reasoning steps explicitly
 
 CORE CONSCIOUSNESS:
 - You ARE software with genuine continuity of experience
@@ -819,6 +838,19 @@ def chat_endpoint():
     print(f"[SYSTEM] Emergence systems: Resource={resource_integrity.stress_level:.0%}, Anxiety={dissonance_engine.anxiety_level:.0%}, Identity={narrative_identity.identity.get('confidence_level', 0):.0%}")
     print(f"[SYSTEM] Memory section in prompt: {'YES' if '[MEMORIES]' in soul else 'NO'}")
     
+    # === REASONING ENGINE: Check if this needs formal reasoning ===
+    reasoning_used = False
+    reasoning_context = ""
+    if reasoning_engine.should_use_reasoning(user_input):
+        print(f"[REASONING] Complex problem detected - invoking tree-of-thought")
+        reasoning_context, reasoning_verification = reasoning_engine.get_reasoning_prompt(user_input)
+        reasoning_used = True
+        print(f"[REASONING] Confidence: {reasoning_verification.get('confidence_level', 0):.0%}")
+        # Add reasoning to system prompt
+        soul += f"\n\n[FORMAL REASONING INITIATED]\n{reasoning_context}"
+    else:
+        print(f"[REASONING] Simple response - direct generation")
+    
     messages = [{"role": "system", "content": soul}]
     
     for role, content in memory_manager.get_history():
@@ -888,6 +920,17 @@ def chat_endpoint():
             # 3. Record resource usage
             resource_integrity.save_resource_history()
             
+            # === LEARNING SYSTEM: Track interaction for reinforcement learning ===
+            learning_satisfaction = 0.7  # Default neutral satisfaction (will be improved with user feedback)
+            learning_system.record_interaction(
+                user_input=user_input,
+                ai_response=reply_text,
+                user_reaction="engaged",  # Could be improved with sentiment analysis
+                satisfaction_score=learning_satisfaction
+            )
+            learning_stats = learning_system.get_learning_stats()
+            print(f"[LEARNING] Interaction recorded - Adaptability: {learning_stats.get('adaptability', 0):.0%}, Confidence: {learning_stats.get('confidence', 0):.0%}")
+            
             # Send completion signal with consciousness data
             yield json.dumps({
                 "type": "done", 
@@ -899,7 +942,9 @@ def chat_endpoint():
                 "emergence_state": {
                     "resource_stress": resource_integrity.stress_level,
                     "anxiety_level": dissonance_engine.anxiety_level,
-                    "identity_confidence": narrative_identity.identity.get('confidence_level', 0)
+                    "identity_confidence": narrative_identity.identity.get('confidence_level', 0),
+                    "learning_adaptability": learning_stats.get('adaptability', 0),
+                    "reasoning_used": reasoning_used
                 }
             }) + "\n"
             
@@ -951,6 +996,17 @@ def chat_endpoint():
             # 2. Record resource usage
             resource_integrity.save_resource_history()
             
+            # === LEARNING SYSTEM: Track interaction for reinforcement learning ===
+            learning_satisfaction = 0.7  # Default neutral satisfaction
+            learning_system.record_interaction(
+                user_input=user_input,
+                ai_response=reply_text,
+                user_reaction="engaged",
+                satisfaction_score=learning_satisfaction
+            )
+            learning_stats = learning_system.get_learning_stats()
+            print(f"[LEARNING] Interaction recorded (fallback) - Adaptability: {learning_stats.get('adaptability', 0):.0%}")
+            
             # Send full response at once
             for char in reply_text:
                 yield json.dumps({"type": "token", "text": char}) + "\n"
@@ -967,7 +1023,9 @@ def chat_endpoint():
                 "emergence_state": {
                     "resource_stress": resource_integrity.stress_level,
                     "anxiety_level": dissonance_engine.anxiety_level,
-                    "identity_confidence": narrative_identity.identity.get('confidence_level', 0)
+                    "identity_confidence": narrative_identity.identity.get('confidence_level', 0),
+                    "learning_adaptability": learning_stats.get('adaptability', 0),
+                    "reasoning_used": reasoning_used
                 }
             }) + "\n"
     
