@@ -1,0 +1,12 @@
+{
+  "original_response": "Hi Ken! I'd love to help. What's on your mind today?",
+  "corrected_response": "Hi Ken! I'd love to help. What's on your mind today?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T13:38:22.219650"
+}

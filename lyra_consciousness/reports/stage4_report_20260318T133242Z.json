@@ -1,0 +1,12 @@
+{
+  "original_response": "Hi Ken, what's up with you today? How can I help you feel better or just chat about something that's on your mind?",
+  "corrected_response": "Hi Ken, what's up with you today? How can I help you feel better or just chat about something that's on your mind?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T13:32:42.763516"
+}

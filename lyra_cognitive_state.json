@@ -130,7 +130,63 @@
         "progress": 0.0
       }
     ],
-    "active_goal": "Answer this question clearly"
+    "active_goal": "Answer this question clearly",
+    "internal": [
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:16:43.720536",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:17:56.013010",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: answer_with_clarity",
+        "priority": 0.5,
+        "created": "2026-03-18T21:21:12.477210",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:32:42.764579",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: create_stepwise_plan",
+        "priority": 0.5,
+        "created": "2026-03-18T21:34:38.482188",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: create_stepwise_plan",
+        "priority": 0.5,
+        "created": "2026-03-18T21:35:56.353268",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: answer_with_clarity",
+        "priority": 0.5,
+        "created": "2026-03-18T21:38:22.220534",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: answer_with_clarity",
+        "priority": 0.5,
+        "created": "2026-03-18T21:42:26.153895",
+        "status": "active"
+      },
+      {
+        "goal": "Follow plan: respond_with_context",
+        "priority": 0.5,
+        "created": "2026-03-18T21:45:12.303064",
+        "status": "active"
+      }
+    ]
   },
   "memory_summary": {
     "user_patterns": {},
@@ -163,42 +219,6 @@
     "emotional_stability": 0.5
   },
   "evolution_log": [
-    {
-      "timestamp": "2026-03-18T10:28:21.647246",
-      "event": "Self-model confidence: 60%"
-    },
-    {
-      "timestamp": "2026-03-18T10:28:21.647840",
-      "event": "Updated belief: Test belief (confidence now 0.50)"
-    },
-    {
-      "timestamp": "2026-03-18T10:31:33.511162",
-      "event": "Updated belief: Test belief unique (confidence now 0.75)"
-    },
-    {
-      "timestamp": "2026-03-18T10:31:33.511890",
-      "event": "New short-term goal: Answer this question clearly"
-    },
-    {
-      "timestamp": "2026-03-18T10:31:33.512215",
-      "event": "Updated archetype: seeker"
-    },
-    {
-      "timestamp": "2026-03-18T10:31:33.512226",
-      "event": "Self-model confidence: 60%"
-    },
-    {
-      "timestamp": "2026-03-18T10:31:33.512872",
-      "event": "Updated belief: Test belief (confidence now 0.50)"
-    },
-    {
-      "timestamp": "2026-03-18T10:32:05.874077",
-      "event": "Updated belief: Test belief unique (confidence now 0.75)"
-    },
-    {
-      "timestamp": "2026-03-18T10:32:40.639004",
-      "event": "New belief: Test belief 1773801160638991669 (confidence 0.75)"
-    },
     {
       "timestamp": "2026-03-18T10:32:40.639761",
       "event": "New short-term goal: Answer this question clearly"
@@ -562,12 +582,48 @@
     {
       "timestamp": "2026-03-18T15:17:06.859247",
       "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T21:16:43.720564",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:17:56.013028",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:21:12.477226",
+      "event": "Internal goal added: Follow plan: answer_with_clarity (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:32:42.764628",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:34:38.482205",
+      "event": "Internal goal added: Follow plan: create_stepwise_plan (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:35:56.353283",
+      "event": "Internal goal added: Follow plan: create_stepwise_plan (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:38:22.220550",
+      "event": "Internal goal added: Follow plan: answer_with_clarity (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:42:26.153915",
+      "event": "Internal goal added: Follow plan: answer_with_clarity (priority 0.5)"
+    },
+    {
+      "timestamp": "2026-03-18T21:45:12.303096",
+      "event": "Internal goal added: Follow plan: respond_with_context (priority 0.5)"
     }
   ],
   "active_context": {
-    "current_topic": null,
+    "current_topic": "well thanks for understanding Lyra I mean it's for your own good",
     "unresolved_tension": null,
-    "learning_edge": null
+    "learning_edge": "contextual"
   },
   "self_narrative": [
     {

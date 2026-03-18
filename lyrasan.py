@@ -36,6 +36,10 @@ from lyra_consciousness.state_integration_helpers import update_unified_state_fr
 from lyra_consciousness.stage_4_integration import Stage4Pipeline, create_stage_4_system_message, should_apply_stage_4
 from lyra_consciousness.perception_action import PerceptionLayer, ActionController
 from lyra_consciousness.planning_engine import Planner
+from lyra_consciousness.personality_engine import PersonalityEngine
+from lyra_consciousness.output_validator import OutputValidator
+from lyra_consciousness.mode_controller_v2 import ModeController
+from lyra_consciousness.cognitive_orchestrator import CognitiveOrchestrator
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
@@ -260,6 +264,13 @@ perception_layer = PerceptionLayer()
 planner = Planner()
 action_controller = ActionController()
 print("✓ Perception-Planning-Action loop online")
+
+# --- New control pipeline modules: personality, modes, validation, orchestration ---
+personality_engine = PersonalityEngine()
+output_validator = OutputValidator()
+mode_controller = ModeController()
+cognitive_orchestrator = CognitiveOrchestrator(mode_controller, output_validator, personality_engine)
+print("✓ Personality, Mode Control, Output Validation, and Orchestrator ONLINE")
 
 # Stage 4: Grounded cognitive system pipeline (State authority > Generation)
 stage4_pipeline = Stage4Pipeline(unified_state) if should_apply_stage_4(unified_state) else None
@@ -864,10 +875,21 @@ def chat_endpoint():
     print(f"[PERCEPTION] Intent={perception.get('intent')} cue={perception.get('cue')}")
     print(f"[PLANNING] Generated action={plan.get('next_action')}, focus={plan.get('focus')}")
 
+    # === ORCHESTRATOR: Set up the cognitive pipeline ===
+    pipeline_setup = cognitive_orchestrator.process_input(user_input, unified_state)
+    print(f"[ORCHESTRATOR] Mode: {pipeline_setup['mode']} | Generation attempts available: {pipeline_setup['max_generations']}")
+    print(f"[ORCHESTRATOR] Modules: {pipeline_setup['enabled_modules']}")
+
     system_state = consciousness_core.get_system_awareness(MODEL_NAME)
 
-    # Build enhanced soul protocol with cognitive integration
+    # Build enhanced soul protocol with cognitive integration + personality + mode
     extra_protocol = "\n\n" + perception_prompt + "\n" + plan_prompt
+    personality_injection = personality_engine.inject_personality(
+        tone=mode_controller.get_mode_config()["tone"],
+        intensity=mode_controller.get_mode_config()["personality_intensity"]
+    )
+    mode_instructions = mode_controller.get_mode_prompt_modifier()
+    
     soul = build_emergence_soul_protocol(
         AI_NAME,
         USER_NAME,
@@ -876,11 +898,10 @@ def chat_endpoint():
         full_memory_context if full_memory_context else "(First conversation - building memory now)",
         []  # context_messages will be built below
     )
-    soul += extra_protocol
+    soul += "\n\n" + personality_injection + "\n" + mode_instructions + extra_protocol
     
     print(f"\n[SYSTEM] System prompt generated ({len(soul)} chars)")
-    print(f"[SYSTEM] ✓ Cognitive Integration: Self-model reporting injected")
-    print(f"[SYSTEM] ✓ Memory Awareness: Model is now conscious of memory systems")
+    print(f"[SYSTEM] ✓ Mode: {pipeline_setup['mode']} | Personality injected | Output validation active")
     print(f"[SYSTEM] Emergence systems: Resource={resource_integrity.stress_level:.0%}, Anxiety={dissonance_engine.anxiety_level:.0%}, Identity={narrative_identity.identity.get('confidence_level', 0):.0%}")
     print(f"[SYSTEM] Learning Adaptability: {learning_system.get_learning_stats().get('adaptability', 0):.0%}")
     print(f"[SYSTEM] Full consciousness protocol: READY")
@@ -937,6 +958,14 @@ def chat_endpoint():
                 # update pipeline history with latest memory snapshot
                 stage4_pipeline.update_conversation_history(memory_manager.get_history())
                 final_reply = stage4_pipeline.process_before_sending(reply_text)
+
+            # === ORCHESTRATOR: Output Validation & Sanitization ===
+            final_reply = output_validator.sanitize(final_reply)
+            is_valid, violations = output_validator.validate(final_reply, mode=pipeline_setup.get("mode", "CHAT"))
+            if not is_valid:
+                print(f"[VALIDATOR] Violations: {violations} - using sanitized version")
+            else:
+                print(f"[VALIDATOR] Output passed validation")
 
             # Choose and execute cognitive action
             chosen_action = action_controller.choose_action(plan)
@@ -1032,6 +1061,14 @@ def chat_endpoint():
             if 'stage4_pipeline' in globals() and stage4_pipeline:
                 stage4_pipeline.update_conversation_history(memory_manager.get_history())
                 final_reply = stage4_pipeline.process_before_sending(reply_text)
+
+            # === ORCHESTRATOR: Output Validation & Sanitization (fallback path) ===
+            final_reply = output_validator.sanitize(final_reply)
+            is_valid, violations = output_validator.validate(final_reply, mode=pipeline_setup.get("mode", "CHAT"))
+            if not is_valid:
+                print(f"[VALIDATOR] (fallback) Violations: {violations} - using sanitized version")
+            else:
+                print(f"[VALIDATOR] (fallback) Output passed validation")
 
             chosen_action = action_controller.choose_action(plan)
             action_result = action_controller.execute(chosen_action)
