@@ -110,6 +110,10 @@ class UnifiedCognitiveState:
 
             # Identity log for narrative continuity
             "identity_log": [],
+            "identity_meta": {
+                "last_reference_turn": 0,
+                "reference_cooldown": 3
+            },
             
             # Active context
             "active_context": {
@@ -197,6 +201,26 @@ class UnifiedCognitiveState:
             self.state["identity_log"] = self.state["identity_log"][-500:]
         self._log_evolution(f"Identity log: {entry[:80]}")
         self.save()
+
+    def should_reference_identity(self) -> bool:
+        """Return True if identity may be referenced now (respecting cooldown)."""
+        try:
+            last = int(self.state.get("identity_meta", {}).get("last_reference_turn", 0))
+            cooldown = int(self.state.get("identity_meta", {}).get("reference_cooldown", 3))
+            current = int(self.state.get("interaction_count", 0))
+            if current - last >= cooldown:
+                return True
+            return False
+        except Exception:
+            return True
+
+    def note_identity_reference(self):
+        """Record that identity was referenced on this interaction."""
+        try:
+            self.state.setdefault("identity_meta", {})["last_reference_turn"] = int(self.state.get("interaction_count", 0))
+            self.save()
+        except Exception:
+            pass
 
     def get_identity_log(self, limit: int = 10) -> List[Dict]:
         return self.state.get("identity_log", [])[-limit:]

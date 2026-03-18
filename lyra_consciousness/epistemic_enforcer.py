@@ -278,7 +278,7 @@ class EpistemicEnforcer:
         
         return result
 
-    def auto_tag_response(self, response: str, conversation_history: List[Tuple[str, str]]) -> str:
+    def auto_tag_response(self, response: str, conversation_history: List[Tuple[str, str]], allow_evidence: bool = False) -> str:
         """
         Automatically tag claims in response as [MEMORY], [INFERENCE], or [UNKNOWN].
         This is conservative: everything not clearly memory/inference becomes [UNKNOWN].
@@ -301,7 +301,7 @@ class EpistemicEnforcer:
 
         # Attempt to attach evidence snippets for memory claims using TruthVerifier (best-effort)
         evidence_map = {}
-        if memory_claims:
+        if allow_evidence and memory_claims:
             try:
                 # import locally to avoid circular import at module load
                 from lyra_consciousness.truth_verifier import TruthVerifier
@@ -372,9 +372,9 @@ class EpistemicEnforcer:
         if emotions.get("confidence", 0.5) < 0.5:
             corrected = "I'm currently uncertain about several aspects, so take this with caution: " + corrected
 
-        # Apply auto-tagging so user sees epistemic status
+        # Apply auto-tagging so user sees epistemic status (do NOT attach evidence in correction mode)
         try:
-            corrected = self.auto_tag_response(corrected, conversation_history)
+            corrected = self.auto_tag_response(corrected, conversation_history, allow_evidence=False)
         except Exception:
             # fallback: return corrected untagged
             pass

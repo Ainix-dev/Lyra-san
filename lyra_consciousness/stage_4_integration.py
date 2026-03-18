@@ -8,7 +8,10 @@ Implements full grounding for genuine Stage 4: Grounded Cognitive System
 from lyra_consciousness.epistemic_enforcer import EpistemicEnforcer, apply_hard_constraints
 from lyra_consciousness.truth_verifier import TruthVerifier
 from lyra_consciousness.stage_4_system_prompt import STAGE_4_SYSTEM_PROMPT, get_constraint_reminder
+from lyra_consciousness.intent_classifier import classify_text, detect_structured_task
+from lyra_consciousness.mode_controller import select_mode
 from typing import Dict, Tuple, List
+import re
 import json
 import os
 from datetime import datetime
@@ -145,6 +148,30 @@ class Stage4Pipeline:
         except Exception:
             monitor_actions = {}
 
+        # Intent classification + mode selection
+        intent = "casual"
+        structured_task = (None, None)
+        try:
+            if self.conversation_history:
+                latest = self.conversation_history[-1][1]
+            else:
+                latest = None
+            intent = classify_text(latest)
+            structured_task = detect_structured_task(latest)
+            mode = select_mode(intent, self.state)
+            # apply strict blocking toggle from mode
+            self.strict_blocking = bool(mode.get("strict_blocking", False))
+            # record mode activation in identity log for observability (respect identity cooldown)
+            try:
+                if self.state.should_reference_identity():
+                    self.state.add_self_narrative(f"Mode selected: {mode.get('mode')} (intent={intent})")
+                    self.state.note_identity_reference()
+            except Exception:
+                pass
+        except Exception:
+            intent = "casual"
+            structured_task = (None, None)
+
         is_valid, corrected, report = self.verify_response(cleaned)
 
         # Persist verification report for auditing
@@ -154,8 +181,37 @@ class Stage4Pipeline:
             # non-fatal: do not block sending if persistence fails
             pass
 
-        # If there were corrections and user wants to see them
-        if show_corrections and report["corrections_made"]:
+        # Clarification triggers: only surface corrections/evidence when needed
+        clarif_trigger = False
+        try:
+            # Only treat non-trivial truth violations as triggers; simple 'Ungrounded memory' is ignored for casual intents
+            for tv in report.get("truth_violations", []):
+                tvl = str(tv).lower()
+                if "ungrounded memory" in tvl:
+                    # allow only for deep reasoning
+                    if intent == 'deep_reasoning':
+                        clarif_trigger = True
+                else:
+                    clarif_trigger = True
+
+            if report.get("epistemic_violations"):
+                clarif_trigger = True
+            if report.get("hard_violations"):
+                clarif_trigger = True
+
+            # warnings indicating conflict or low confidence
+            for w in report.get("warnings", []):
+                lw = str(w).lower()
+                if "conflict" in lw or "low confidence" in lw:
+                    clarif_trigger = True
+            # deep reasoning intent allows more explanation
+            if intent == 'deep_reasoning':
+                clarif_trigger = True
+        except Exception:
+            clarif_trigger = False
+
+        # If there were corrections and user wants to see them, only show when clarif_trigger
+        if show_corrections and report["corrections_made"] and clarif_trigger:
             correction_note = "\n---\n⚠️  [CORRECTION APPLIED]\n"
             if report["hard_violations"]:
                 correction_note += f"Hard constraint violations fixed: {len(report['hard_violations'])}\n"
@@ -163,14 +219,38 @@ class Stage4Pipeline:
                 correction_note += f"Epistemic issues corrected: {len(report['epistemic_violations'])}\n"
             if report["truth_violations"]:
                 correction_note += f"Truth violations resolved: {len(report['truth_violations'])}\n"
-            
             return corrected + correction_note
         
+        # If a structured task is requested, enforce structured output patterns
+        try:
+            task_type, hint = structured_task
+            if task_type:
+                # enforce simple patterns
+                if task_type == 'knock_knock':
+                    # ensure assistant starts the game with 'Knock knock' when appropriate
+                    if not cleaned.strip().lower().startswith('knock knock') and 'knock' in cleaned.lower():
+                        cleaned = 'Knock knock.'
+                elif task_type == 'step_by_step':
+                    # ensure numbered steps
+                    if not re.search(r"^\s*1\.|^\s*1\)", cleaned):
+                        # convert plaintext into a minimal step-by-step reply
+                        cleaned = '1. ' + cleaned.replace('\n', '\n2. ')
+                elif task_type == 'riddle':
+                    # ensure short one-line riddle or Q/A -- limit to single paragraph
+                    cleaned = '\n'.join([line.strip() for line in cleaned.splitlines() if line.strip()])
+                    if '\n' in cleaned:
+                        # keep only first line for riddle prompt
+                        cleaned = cleaned.split('\n', 1)[0]
+        except Exception:
+            pass
+
+        # (no debug prints) intentional silence to avoid leaks
+
         # Apply epistemic auto-tagging using the enforcer (if available)
         tagged = corrected
         try:
             if hasattr(self, 'enforcer') and self.enforcer:
-                tagged = self.enforcer.auto_tag_response(corrected, self.conversation_history)
+                tagged = self.enforcer.auto_tag_response(corrected, self.conversation_history, allow_evidence=clarif_trigger)
         except Exception:
             # Fallback to lightweight tagging
             tagged = self.apply_epistemic_tags(corrected)

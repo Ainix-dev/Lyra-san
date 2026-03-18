@@ -1,22 +1,42 @@
 [
   {
-    "cpu": 36.7,
-    "memory": 48.9,
-    "disk": 53.3,
+    "cpu": 39.0,
+    "memory": 49.5,
+    "disk": 53.4,
     "battery": null,
-    "timestamp": "2026-03-18T14:41:15.433633",
-    "stress": 0.3046,
+    "timestamp": "2026-03-18T15:12:26.402645",
+    "stress": 0.3134,
     "mode": "caution",
-    "energy": 0.6874
+    "energy": 0.665
   },
   {
-    "cpu": 33.9,
-    "memory": 48.6,
-    "disk": 53.3,
+    "cpu": 36.7,
+    "memory": 49.1,
+    "disk": 53.4,
     "battery": null,
-    "timestamp": "2026-03-18T14:44:57.677121",
-    "stress": 0.3048,
+    "timestamp": "2026-03-18T15:14:19.402262",
+    "stress": 0.3032,
     "mode": "caution",
-    "energy": 0.6921999999999999
+    "energy": 0.6934
+  },
+  {
+    "cpu": 40.0,
+    "memory": 49.2,
+    "disk": 53.4,
+    "battery": null,
+    "timestamp": "2026-03-18T15:16:09.994601",
+    "stress": 0.30820000000000003,
+    "mode": "caution",
+    "energy": 0.693
+  },
+  {
+    "cpu": 35.0,
+    "memory": 49.4,
+    "disk": 53.4,
+    "battery": null,
+    "timestamp": "2026-03-18T15:17:07.022009",
+    "stress": 0.30700000000000005,
+    "mode": "caution",
+    "energy": 0.6890000000000001
   }
 ]

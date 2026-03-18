@@ -164,30 +164,6 @@
   },
   "evolution_log": [
     {
-      "timestamp": "2026-03-18T10:26:37.779363",
-      "event": "Self-model confidence: 60%"
-    },
-    {
-      "timestamp": "2026-03-18T10:26:37.779973",
-      "event": "Updated belief: Test belief (confidence now 0.50)"
-    },
-    {
-      "timestamp": "2026-03-18T10:27:19.543163",
-      "event": "Updated belief: Likes consciousness exploration (confidence now 0.75)"
-    },
-    {
-      "timestamp": "2026-03-18T10:28:21.646317",
-      "event": "New belief: Test belief unique (confidence 0.75)"
-    },
-    {
-      "timestamp": "2026-03-18T10:28:21.646965",
-      "event": "New short-term goal: Answer this question clearly"
-    },
-    {
-      "timestamp": "2026-03-18T10:28:21.647235",
-      "event": "Updated archetype: seeker"
-    },
-    {
       "timestamp": "2026-03-18T10:28:21.647246",
       "event": "Self-model confidence: 60%"
     },
@@ -562,11 +538,61 @@
     {
       "timestamp": "2026-03-18T14:53:14.371543",
       "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T15:09:59.149312",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:10:25.361002",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:12:26.237400",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:14:19.245687",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:16:09.851249",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:17:06.859247",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
     }
   ],
   "active_context": {
     "current_topic": null,
     "unresolved_tension": null,
     "learning_edge": null
-  }
+  },
+  "self_narrative": [
+    {
+      "timestamp": "2026-03-18T15:09:59.149303",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:10:25.360995",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:12:26.237388",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:14:19.245675",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:16:09.851238",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:17:06.859236",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    }
+  ]
 }
