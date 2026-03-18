@@ -42,6 +42,19 @@
         "confidence": 0.75,
         "created": "2026-03-18T10:33:04.863105",
         "source": "test"
+      },
+      {
+        "belief": "Likes consciousness questions",
+        "confidence": 0.8,
+        "created": "2026-03-18T11:06:20.449539",
+        "source": "test",
+        "last_updated": "2026-03-18T11:07:46.715746"
+      },
+      {
+        "belief": "Test belief 1773807263514973848",
+        "confidence": 0.75,
+        "created": "2026-03-18T12:14:23.514977",
+        "source": "test"
       }
     ],
     "about_world": [
@@ -50,14 +63,14 @@
         "confidence": 0.5,
         "created": "2026-03-18T10:24:57.807393",
         "source": "test",
-        "last_updated": "2026-03-18T10:33:04.865472"
+        "last_updated": "2026-03-18T12:14:23.517176"
       }
     ]
   },
   "emotional_state": {
-    "anxiety": 0.27529370999999997,
-    "confidence": 0.6835291399999999,
-    "curiosity": 0.7752937099999999,
+    "anxiety": 0.5240180197709999,
+    "confidence": 0.6884703979999999,
+    "curiosity": 0.7827055969999999,
     "frustration": 0.0,
     "engagement": 0.5
   },
@@ -104,6 +117,12 @@
         "priority": 0.5,
         "created": "2026-03-18T10:33:04.864048",
         "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T12:14:23.515918",
+        "status": "active"
       }
     ],
     "long_term": [
@@ -118,6 +137,12 @@
         "created": "2026-03-18T10:24:57.806713",
         "status": "active",
         "progress": 0.0
+      },
+      {
+        "goal": "Develop genuine understanding",
+        "created": "2026-03-18T11:06:20.449951",
+        "status": "active",
+        "progress": 0.0
       }
     ],
     "active_goal": "Answer this question clearly"
@@ -130,12 +155,12 @@
   "self_model": {
     "archetype": "seeker",
     "traits": {
-      "analytical": 0.5164992,
-      "curious": 0.5902848000000002
+      "analytical": 0.55319936,
+      "curious": 0.6322278400000002
     },
     "values": {
-      "honesty": 0.6050880000000001,
-      "growth": 0.5378560000000001
+      "honesty": 0.6640704000000001,
+      "growth": 0.5902848000000002
     },
     "worldview_summary": "",
     "confidence": 0.6
@@ -295,6 +320,42 @@
     },
     {
       "timestamp": "2026-03-18T10:33:04.865481",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.447035",
+      "event": "Emotional shift: anxiety = 0.43"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.449544",
+      "event": "New belief: Likes consciousness questions (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.449961",
+      "event": "New long-term goal: Develop genuine understanding"
+    },
+    {
+      "timestamp": "2026-03-18T11:07:46.715751",
+      "event": "Updated belief: Likes consciousness questions (confidence now 0.80)"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.514986",
+      "event": "New belief: Test belief 1773807263514973848 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.515924",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.516339",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.516349",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.517183",
       "event": "Updated belief: Test belief (confidence now 0.50)"
     }
   ],

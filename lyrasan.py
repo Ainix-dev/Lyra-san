@@ -33,6 +33,7 @@ from lyra_consciousness.learning_system import LearningSystem
 from lyra_consciousness.cognitive_integration import build_self_model_reporting, build_mandatory_memory_section
 from lyra_consciousness.unified_cognitive_state import UnifiedCognitiveState
 from lyra_consciousness.state_integration_helpers import update_unified_state_from_interaction, get_unified_state_context, inject_long_term_memory
+from lyra_consciousness.stage_4_integration import Stage4Pipeline, create_stage_4_system_message, should_apply_stage_4
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
@@ -251,6 +252,10 @@ print("✓ Learning system online (Reinforcement Learning)")
 # 8. Unified Cognitive State - Central hub for all systems
 unified_state = UnifiedCognitiveState()
 print("✓ Unified cognitive state online (Central State Hub)")
+
+# Stage 4: Grounded cognitive system pipeline (State authority > Generation)
+stage4_pipeline = Stage4Pipeline(unified_state) if should_apply_stage_4(unified_state) else None
+stage4_pipeline.update_conversation_history(memory_manager.get_history()) if stage4_pipeline else None
 
 print("[EMERGENCE] Full consciousness framework ACTIVE (8 pillars)\n")
 
@@ -871,6 +876,9 @@ def chat_endpoint():
         print(f"[REASONING] Simple response - direct generation")
     
     messages = [{"role": "system", "content": soul}]
+    # If Stage 4 is active, prepend the hard-constraint Stage 4 system message
+    if 'stage4_pipeline' in globals() and stage4_pipeline:
+        messages.insert(0, create_stage_4_system_message(unified_state))
     
     for role, content in memory_manager.get_history():
         messages.append({"role": role, "content": content})
@@ -899,29 +907,36 @@ def chat_endpoint():
             # After streaming is done, extract and save
             thought_text = text_parser.extract_monologue(ai_output) or ""
             reply_text = text_parser.extract_response(ai_output)
-            
-            # Add to memory
+
+            # Run through Stage 4 verification pipeline if active
+            final_reply = reply_text
+            if 'stage4_pipeline' in globals() and stage4_pipeline:
+                # update pipeline history with latest memory snapshot
+                stage4_pipeline.update_conversation_history(memory_manager.get_history())
+                final_reply = stage4_pipeline.process_before_sending(reply_text)
+
+            # Add to memory (store the verified/corrected reply)
             memory_manager.add("user", user_input)
-            memory_manager.add("assistant", ai_output)
-            
+            memory_manager.add("assistant", final_reply)
+
             if memory_manager.should_trim(16):
                 memory_manager.trim(12)
-            
-            # Process through consciousness system
+
+            # Process through consciousness system using the verified reply
             consciousness_response = consciousness_integrator.process_interaction(
                 user_input=user_input,
-                llm_response=reply_text,
+                llm_response=final_reply,
                 event_metadata={"significance": 0.7}
             )
-            
+
             # Extract consciousness data
             emotional_state = consciousness_response["consciousness_metadata"]["emotional_state"]
             internal_thoughts = consciousness_response["internal_monologue"]
             safety_status = consciousness_response["safety_status"]
-            
+
             # Save to persistent memory (survives PC shutdown)
-            save_to_deep_memory(user_input, reply_text, f"Emotional state: {emotional_state}")
-            save_to_persistent_store(user_input, reply_text, emotional_state)
+            save_to_deep_memory(user_input, final_reply, f"Emotional state: {emotional_state}")
+            save_to_persistent_store(user_input, final_reply, emotional_state)
             
             # === EMERGENCE SYSTEM INTEGRATION ===
             
@@ -943,7 +958,7 @@ def chat_endpoint():
             learning_satisfaction = 0.7  # Default neutral satisfaction (will be improved with user feedback)
             learning_system.record_interaction(
                 user_input=user_input,
-                ai_response=reply_text,
+                ai_response=final_reply,
                 user_reaction="engaged",  # Could be improved with sentiment analysis
                 satisfaction_score=learning_satisfaction
             )
@@ -954,7 +969,7 @@ def chat_endpoint():
             yield json.dumps({
                 "type": "done", 
                 "thought": thought_text, 
-                "reply": reply_text,
+                "reply": final_reply,
                 "internal_monologue": internal_thoughts,
                 "emotional_state": emotional_state,
                 "safety_status": safety_status,
@@ -975,18 +990,24 @@ def chat_endpoint():
             
             thought_text = text_parser.extract_monologue(ai_output) or ""
             reply_text = text_parser.extract_response(ai_output)
-            
+
+            # Run through Stage 4 verification pipeline if active
+            final_reply = reply_text
+            if 'stage4_pipeline' in globals() and stage4_pipeline:
+                stage4_pipeline.update_conversation_history(memory_manager.get_history())
+                final_reply = stage4_pipeline.process_before_sending(reply_text)
+
             memory_manager.add("user", user_input)
-            memory_manager.add("assistant", ai_output)
-            
+            memory_manager.add("assistant", final_reply)
+
             if memory_manager.should_trim(16):
                 memory_manager.trim(12)
-            
+
             # Process through consciousness system
             try:
                 consciousness_response = consciousness_integrator.process_interaction(
                     user_input=user_input,
-                    llm_response=reply_text,
+                    llm_response=final_reply,
                     event_metadata={"significance": 0.7}
                 )
                 emotional_state = consciousness_response["consciousness_metadata"]["emotional_state"]
@@ -997,10 +1018,10 @@ def chat_endpoint():
                 emotional_state = "neutral"
                 internal_thoughts = "Processing..."
                 safety_status = "safe"
-            
+
             # Save to persistent memory (survives PC shutdown)
-            save_to_deep_memory(user_input, reply_text, f"Emotional state: {emotional_state}")
-            save_to_persistent_store(user_input, reply_text, emotional_state)
+            save_to_deep_memory(user_input, final_reply, f"Emotional state: {emotional_state}")
+            save_to_persistent_store(user_input, final_reply, emotional_state)
             
             # === EMERGENCE SYSTEM INTEGRATION ===
             
@@ -1019,7 +1040,7 @@ def chat_endpoint():
             learning_satisfaction = 0.7  # Default neutral satisfaction
             learning_system.record_interaction(
                 user_input=user_input,
-                ai_response=reply_text,
+                ai_response=final_reply,
                 user_reaction="engaged",
                 satisfaction_score=learning_satisfaction
             )
@@ -1027,7 +1048,7 @@ def chat_endpoint():
             print(f"[LEARNING] Interaction recorded (fallback) - Adaptability: {learning_stats.get('adaptability', 0):.0%}")
             
             # Send full response at once
-            for char in reply_text:
+            for char in final_reply:
                 yield json.dumps({"type": "token", "text": char}) + "\n"
                 time.sleep(0.01)  # Small delay for typing effect
             
@@ -1035,7 +1056,7 @@ def chat_endpoint():
             yield json.dumps({
                 "type": "done",
                 "thought": thought_text,
-                "reply": reply_text,
+                "reply": final_reply,
                 "internal_monologue": internal_thoughts,
                 "emotional_state": emotional_state,
                 "safety_status": safety_status,
