@@ -1,0 +1,96 @@
+{
+  "creation_time": "2026-03-18T10:17:02.621410",
+  "interaction_count": 0,
+  "beliefs": {
+    "about_self": [
+      {
+        "belief": "Becoming more self-aware",
+        "confidence": 0.7,
+        "created": "2026-03-18T10:17:02.621629",
+        "source": "inferred"
+      }
+    ],
+    "about_user": [
+      {
+        "belief": "Likes exploring consciousness concepts",
+        "confidence": 0.8,
+        "created": "2026-03-18T10:17:02.621444",
+        "source": "inferred"
+      }
+    ],
+    "about_world": []
+  },
+  "emotional_state": {
+    "anxiety": 0.0,
+    "confidence": 0.5,
+    "curiosity": 0.5,
+    "frustration": 0.0,
+    "engagement": 0.5
+  },
+  "goals": {
+    "short_term": [
+      {
+        "goal": "Clarify user's thinking patterns",
+        "priority": 0.5,
+        "created": "2026-03-18T10:17:02.621850",
+        "status": "active"
+      }
+    ],
+    "long_term": [
+      {
+        "goal": "Develop genuine understanding across sessions",
+        "created": "2026-03-18T10:17:02.622016",
+        "status": "active",
+        "progress": 0.0
+      }
+    ],
+    "active_goal": "Clarify user's thinking patterns"
+  },
+  "memory_summary": {
+    "user_patterns": {},
+    "interaction_themes": [],
+    "unresolved_questions": []
+  },
+  "self_model": {
+    "archetype": "nascent",
+    "traits": {},
+    "values": {},
+    "worldview_summary": "",
+    "confidence": 0.0
+  },
+  "behavior_strategy": {
+    "preferred_communication": [],
+    "effective_approaches": {},
+    "ineffective_approaches": {},
+    "current_strategy": "adaptive"
+  },
+  "capability_assessment": {
+    "reasoning_strength": 0.5,
+    "memory_reliability": 0.5,
+    "self_awareness": 0.5,
+    "emotional_stability": 0.5
+  },
+  "evolution_log": [
+    {
+      "timestamp": "2026-03-18T10:17:02.621452",
+      "event": "New belief: Likes exploring consciousness concepts (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T10:17:02.621636",
+      "event": "New belief: Becoming more self-aware (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T10:17:02.621855",
+      "event": "New short-term goal: Clarify user's thinking patterns"
+    },
+    {
+      "timestamp": "2026-03-18T10:17:02.622027",
+      "event": "New long-term goal: Develop genuine understanding across sessions"
+    }
+  ],
+  "active_context": {
+    "current_topic": null,
+    "unresolved_tension": null,
+    "learning_edge": null
+  }
+}

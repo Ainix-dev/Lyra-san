@@ -31,6 +31,8 @@ from lyra_consciousness.rumination_daemon import RuminationDaemon
 from lyra_consciousness.reasoning_engine import ReasoningEngine
 from lyra_consciousness.learning_system import LearningSystem
 from lyra_consciousness.cognitive_integration import build_self_model_reporting, build_mandatory_memory_section
+from lyra_consciousness.unified_cognitive_state import UnifiedCognitiveState
+from lyra_consciousness.state_integration_helpers import update_unified_state_from_interaction, get_unified_state_context, inject_long_term_memory
 
 # --- SILENCE WARNINGS ---
 os.environ['ORT_LOGGING_LEVEL'] = '3'
