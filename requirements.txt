@@ -4,3 +4,4 @@ chromadb==0.4.24
 setuptools-rust==1.9.0
 maturin==1.5.0
 requests==2.31.0
+psutil==5.9.6

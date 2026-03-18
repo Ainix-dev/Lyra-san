@@ -1,0 +1,20 @@
+[
+  {
+    "cpu": 42.6,
+    "memory": 43.2,
+    "disk": 52.9,
+    "battery": null,
+    "timestamp": "2026-03-18T09:25:06.170040",
+    "stress": 0.29380000000000006,
+    "mode": "caution"
+  },
+  {
+    "cpu": 45.8,
+    "memory": 43.2,
+    "disk": 52.9,
+    "battery": null,
+    "timestamp": "2026-03-18T09:26:55.140756",
+    "stress": 0.3066,
+    "mode": "caution"
+  }
+]
