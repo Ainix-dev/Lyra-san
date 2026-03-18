@@ -1,0 +1,598 @@
+{
+  "creation_time": "2026-03-18T10:17:02.621410",
+  "interaction_count": 0,
+  "beliefs": {
+    "about_self": [
+      {
+        "belief": "Becoming more self-aware",
+        "confidence": 0.7,
+        "created": "2026-03-18T10:17:02.621629",
+        "source": "inferred"
+      }
+    ],
+    "about_user": [
+      {
+        "belief": "favorite_language: Iteration0",
+        "confidence": 0.6,
+        "created": "2026-03-18T14:53:13.935470",
+        "source": "test",
+        "tier": "tier3",
+        "origin": "test"
+      },
+      {
+        "belief": "favorite_language: Iteration1",
+        "confidence": 0.7,
+        "created": "2026-03-18T14:53:14.141635",
+        "source": "test",
+        "tier": "tier3",
+        "origin": "test"
+      },
+      {
+        "belief": "favorite_language: Iteration2",
+        "confidence": 0.8,
+        "created": "2026-03-18T14:53:14.371487",
+        "source": "test",
+        "tier": "tier3",
+        "origin": "test"
+      }
+    ],
+    "about_world": [
+      {
+        "belief": "Test belief",
+        "confidence": 0.5,
+        "created": "2026-03-18T10:24:57.807393",
+        "source": "test",
+        "last_updated": "2026-03-18T13:37:37.215240"
+      }
+    ]
+  },
+  "emotional_state": {
+    "anxiety": 0.45681261383969995,
+    "confidence": 0.6919292785999999,
+    "curiosity": 0.7878939178999999,
+    "frustration": 0.0,
+    "engagement": 0.5
+  },
+  "goals": {
+    "short_term": [
+      {
+        "goal": "Clarify user's thinking patterns",
+        "priority": 0.5,
+        "created": "2026-03-18T10:17:02.621850",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:24:57.806915",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:26:37.779046",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:28:21.646958",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:31:33.511883",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:32:40.639754",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T10:33:04.864048",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T12:14:23.515918",
+        "status": "active"
+      },
+      {
+        "goal": "Answer this question clearly",
+        "priority": 0.5,
+        "created": "2026-03-18T13:37:37.213892",
+        "status": "active"
+      }
+    ],
+    "long_term": [
+      {
+        "goal": "Develop genuine understanding across sessions",
+        "created": "2026-03-18T10:17:02.622016",
+        "status": "active",
+        "progress": 0.0
+      },
+      {
+        "goal": "Understand consciousness evolution",
+        "created": "2026-03-18T10:24:57.806713",
+        "status": "active",
+        "progress": 0.0
+      },
+      {
+        "goal": "Develop genuine understanding",
+        "created": "2026-03-18T11:06:20.449951",
+        "status": "active",
+        "progress": 0.0
+      }
+    ],
+    "active_goal": "Answer this question clearly"
+  },
+  "memory_summary": {
+    "user_patterns": {},
+    "interaction_themes": [],
+    "unresolved_questions": []
+  },
+  "self_model": {
+    "archetype": "seeker",
+    "traits": {
+      "analytical": 0.582559488,
+      "curious": 0.6657822720000002
+    },
+    "values": {
+      "honesty": 0.7112563200000002,
+      "growth": 0.6322278400000002
+    },
+    "worldview_summary": "",
+    "confidence": 0.6
+  },
+  "behavior_strategy": {
+    "preferred_communication": [],
+    "effective_approaches": {},
+    "ineffective_approaches": {},
+    "current_strategy": "adaptive"
+  },
+  "capability_assessment": {
+    "reasoning_strength": 0.5,
+    "memory_reliability": 0.5,
+    "self_awareness": 0.5,
+    "emotional_stability": 0.5
+  },
+  "evolution_log": [
+    {
+      "timestamp": "2026-03-18T10:28:21.647246",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:28:21.647840",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.511162",
+      "event": "Updated belief: Test belief unique (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.511890",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512215",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512226",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:31:33.512872",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:05.874077",
+      "event": "Updated belief: Test belief unique (confidence now 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.639004",
+      "event": "New belief: Test belief 1773801160638991669 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.639761",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640078",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640090",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:32:40.640776",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.863113",
+      "event": "New belief: Test belief 1773801184863101408 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864055",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864463",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.864474",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T10:33:04.865481",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.447035",
+      "event": "Emotional shift: anxiety = 0.43"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.449544",
+      "event": "New belief: Likes consciousness questions (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T11:06:20.449961",
+      "event": "New long-term goal: Develop genuine understanding"
+    },
+    {
+      "timestamp": "2026-03-18T11:07:46.715751",
+      "event": "Updated belief: Likes consciousness questions (confidence now 0.80)"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.514986",
+      "event": "New belief: Test belief 1773807263514973848 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.515924",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.516339",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.516349",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T12:14:23.517183",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T13:37:37.212935",
+      "event": "New belief: Test belief 1773812257212923214 (confidence 0.75)"
+    },
+    {
+      "timestamp": "2026-03-18T13:37:37.213898",
+      "event": "New short-term goal: Answer this question clearly"
+    },
+    {
+      "timestamp": "2026-03-18T13:37:37.214346",
+      "event": "Updated archetype: seeker"
+    },
+    {
+      "timestamp": "2026-03-18T13:37:37.214357",
+      "event": "Self-model confidence: 60%"
+    },
+    {
+      "timestamp": "2026-03-18T13:37:37.215247",
+      "event": "Updated belief: Test belief (confidence now 0.50)"
+    },
+    {
+      "timestamp": "2026-03-18T13:52:04.736134",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T13:52:04.737657",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:52:04.738967",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T13:52:04.939775",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T13:52:05.140888",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:53:29.775101",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T13:53:29.776557",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:53:29.777828",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T13:53:29.978679",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T13:53:30.180648",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:55:10.786877",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T13:55:10.788250",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:55:10.789734",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T13:55:10.990465",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T13:55:11.191364",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:57:07.470988",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T13:57:07.472505",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:57:07.473930",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T13:57:07.674769",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T13:57:07.878359",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:08.970488",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:08.972003",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:08.972738",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:08.974210",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:09.174999",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T13:59:09.375950",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.308915",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.311050",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.312212",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.314472",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.515724",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:34:13.717264",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.220376",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.222077",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.223007",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.224917",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.426125",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:06.631658",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:39.748898",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:39.750636",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:39.751636",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:39.753576",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:39.954781",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:36:40.160306",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.349667",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.351390",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.352425",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.354508",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.555768",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:51:48.761525",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:53.543976",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:53.546260",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:53.547432",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:54.572978",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:54.782902",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:52:54.992626",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:13.164709",
+      "event": "New belief: favorite_language: Python (confidence 0.9)"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:13.166514",
+      "event": "New belief: favorite_language: Java (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:13.167749",
+      "event": "Contradicted belief: favorite_language: Python"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:13.935482",
+      "event": "New belief: favorite_language: Iteration0 (confidence 0.6)"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:14.141689",
+      "event": "New belief: favorite_language: Iteration1 (confidence 0.7)"
+    },
+    {
+      "timestamp": "2026-03-18T14:53:14.371543",
+      "event": "New belief: favorite_language: Iteration2 (confidence 0.8)"
+    },
+    {
+      "timestamp": "2026-03-18T15:09:59.149312",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:10:25.361002",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:12:26.237400",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:14:19.245687",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:16:09.851249",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:17:06.859247",
+      "event": "Narrative entry added: Mode selected: relaxed (intent=casual)"
+    }
+  ],
+  "active_context": {
+    "current_topic": null,
+    "unresolved_tension": null,
+    "learning_edge": null
+  },
+  "self_narrative": [
+    {
+      "timestamp": "2026-03-18T15:09:59.149303",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:10:25.360995",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:12:26.237388",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:14:19.245675",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:16:09.851238",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    },
+    {
+      "timestamp": "2026-03-18T15:17:06.859236",
+      "entry": "Mode selected: relaxed (intent=casual)"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+[build-system]
+requires = ["maturin"]
+build-backend = "maturin"
+
+[project]
+name = "lyra-core"
+version = "1.0.0"
+description = "Ultra-fast Rust-based core module for Lyra consciousness"
+requires-python = ">=3.8"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "lyra_core"

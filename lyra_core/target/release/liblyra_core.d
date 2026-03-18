@@ -1,0 +1,1 @@
+/home/nehtrm/Desktop/Lyra-san/lyra_core/target/release/liblyra_core.so: /home/nehtrm/Desktop/Lyra-san/lyra_core/src/consciousness_core.rs /home/nehtrm/Desktop/Lyra-san/lyra_core/src/json_handler.rs /home/nehtrm/Desktop/Lyra-san/lyra_core/src/lib.rs /home/nehtrm/Desktop/Lyra-san/lyra_core/src/memory_manager.rs /home/nehtrm/Desktop/Lyra-san/lyra_core/src/text_parser.rs

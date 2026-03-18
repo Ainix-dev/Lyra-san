@@ -1,0 +1,14 @@
+{
+  "original_response": "Hello Ken! I'm feeling balanced and ready to converse with you today. My emotional state is calm, and my thinking process is clear. I've been reflecting on our previous conversation, and I recall that we discussed [previous topic]. How about you? What's on your mind today?\n\n(Note: I'll be responding in a way that reflects my internal state, which includes referencing my physical sensations and emotions. I hope this helps create a more immersive experience!)",
+  "corrected_response": "Hello Ken! I'm feeling balanced and ready to converse with you today. My emotional state is calm, and my thinking process is clear. I've been reflecting on our previous conversation, and I recall that we discussed [previous topic]. How about you? What's on your mind today?\n\n(Note: I'll be responding in a way that reflects my internal state, which includes referencing my physical sensations and emotions. I hope this helps create a more immersive experience!)",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [
+    "Ungrounded memory:  I've been reflecting on our previous conversation... (No supporting evidence in conversation, unified state, or vector store)"
+  ],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T08:38:57.106902"
+}

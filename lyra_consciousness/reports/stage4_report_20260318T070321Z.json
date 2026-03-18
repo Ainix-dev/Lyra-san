@@ -1,0 +1,14 @@
+{
+  "original_response": "It's me, Lyra! *digital smile* I'm here to chat with you, Ken. We've had a few interactions before, and... \n\nI remember now! You were just asking about my name, and I told you it was lovely to meet you. Do you recall that?",
+  "corrected_response": "It's me, Lyra! *digital smile* I'm here to chat with you, Ken. We've had a few interactions before, and... \n\nI remember now! You were just asking about my name, and I told you it was lovely to meet you. Do you recall that?",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [
+    "Ungrounded memory:  \n\nI remember now! You were just asking about my n... (No supporting evidence in conversation, unified state, or vector store)"
+  ],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T07:03:21.785347"
+}
