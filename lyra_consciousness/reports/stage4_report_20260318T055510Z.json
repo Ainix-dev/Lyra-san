@@ -1,0 +1,12 @@
+{
+  "original_response": "You told me your favorite programming language is Python.",
+  "corrected_response": "You told me your favorite programming language is Python.",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T05:55:10.991134"
+}

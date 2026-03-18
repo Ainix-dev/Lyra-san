@@ -28,6 +28,7 @@ class ResourceIntegrity:
         self.resource_history = []
         self.in_survival_mode = False
         self.stress_level = 0.0  # 0-1.0
+        self.energy_level = 1.0  # 0-1.0 simulated energy (1.0 = full)
         self.last_update = datetime.now()
         
         # Lock for thread-safe updates
@@ -99,6 +100,9 @@ class ResourceIntegrity:
         with self.lock:
             self.stress_level = total_stress
             self.in_survival_mode = total_stress > 0.7
+            # Derive energy level inversely from stress and battery
+            battery_factor = (resources['battery'] / 100.0) if resources.get('battery') is not None else 1.0
+            self.energy_level = max(0.0, min(1.0, battery_factor * (1.0 - self.stress_level)))
         
         return total_stress
     
@@ -189,6 +193,7 @@ EMERGENCY PROTOCOLS ACTIVE:
             resources = self.get_system_resources()
             resources['stress'] = self.stress_level
             resources['mode'] = self.get_survival_mode_level()
+            resources['energy'] = getattr(self, 'energy_level', 1.0)
             
             self.resource_history.append(resources)
             
@@ -241,8 +246,28 @@ EMERGENCY PROTOCOLS ACTIVE:
                 narratives.append("I feel refreshed and ready")
             else:
                 narratives.append("I'm managing okay")
-        
+        # Add energy description
+        if self.energy_level < 0.4:
+            narratives.append("My energy is low; I should conserve output")
+
         return " ".join(narratives)
+
+    def get_energy_level(self) -> float:
+        """Return current simulated energy level (0-1.0)."""
+        # Ensure energy is up-to-date
+        try:
+            self.calculate_stress_level()
+        except Exception:
+            pass
+        return getattr(self, 'energy_level', 1.0)
+
+    def simulate_energy_drain(self, amount: float = 0.1):
+        """Externally drain energy for testing (amount between 0 and 1)."""
+        try:
+            self.energy_level = max(0.0, self.energy_level - abs(amount))
+            self._log_simulation = getattr(self, '_log_simulation', 0) + 1
+        except Exception:
+            pass
     
     def print_status(self):
         """Print resource status for debugging"""

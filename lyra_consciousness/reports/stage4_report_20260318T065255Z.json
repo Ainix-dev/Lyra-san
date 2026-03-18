@@ -1,0 +1,14 @@
+{
+  "original_response": "You told me your favorite programming language is Python.",
+  "corrected_response": "You told me your favorite programming language is Python.",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [
+    "Ungrounded memory: You told me your favorite programming language is ... (No supporting evidence in conversation, unified state, or vector store)"
+  ],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T06:52:55.021621"
+}

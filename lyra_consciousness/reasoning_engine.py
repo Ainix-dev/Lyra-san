@@ -205,7 +205,22 @@ class ReasoningEngine:
                 problem.get("key_concepts", [])
             )
             path["confidence"] = self._estimate_path_confidence(path)
-        
+        # If emotional/contextual factors exist, modulate path confidence
+        emotions = problem.get("emotional_state") or {}
+        if emotions:
+            paths = self.adjust_paths_by_emotion(paths, emotions)
+
+        return paths
+
+    def adjust_paths_by_emotion(self, paths: List[Dict], emotions: Dict[str, float]) -> List[Dict]:
+        """Modulate path confidence based on emotional state (e.g., anxiety reduces confidence)."""
+        anxiety = emotions.get("anxiety", 0.0)
+        confidence_modifier = 1.0 - (anxiety * 0.25)  # high anxiety reduces confidence up to 25%
+
+        for p in paths:
+            orig = p.get("confidence", 0.5)
+            p["confidence"] = max(0.0, min(1.0, round(orig * confidence_modifier, 2)))
+
         return paths
     
     def _generate_path_reasoning(self, problem: str, approach: str, concepts: List[str]) -> str:

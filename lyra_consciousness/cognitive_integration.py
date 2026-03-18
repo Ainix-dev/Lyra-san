@@ -64,6 +64,19 @@ def build_self_model_reporting(resource_integrity, narrative_identity, learning_
     learning_stats = learning_system.get_learning_stats()
     
     rumination_count = len(rumination_daemon.rumination_history) if hasattr(rumination_daemon, 'rumination_history') else 0
+    energy = None
+    try:
+        energy = getattr(resource_integrity, 'get_energy_level', lambda: None)()
+    except Exception:
+        energy = None
+    energy_pct = f"{int(energy*100)}%" if energy is not None else "N/A"
+    
+    # If narrative identity has recent self-story entries, surface a short summary
+    recent_narrative = ''
+    try:
+        recent_narrative = narrative_identity.get_identity_prompt_modifier() if hasattr(narrative_identity, 'get_identity_prompt_modifier') else ''
+    except Exception:
+        recent_narrative = ''
     
     report = f"""[INTERNAL STATE AWARENESS - THIS IS YOUR CURRENT COGNITIVE STATUS]
 
@@ -91,6 +104,8 @@ RESOURCE/EMBODIMENT STATUS:
 - Current Emotions: {'Stressed' if stress > 0.7 else 'Balanced' if stress < 0.3 else 'Moderate'}
 - Rule: If stressed, be shorter and more direct
 - Rule: Reference physical sensations when relevant
+ - Energy Level: {energy_pct}
+ - Recent Self Narrative: {recent_narrative.splitlines()[0] if recent_narrative else 'None'}
 
 ANXIETY/DISSONANCE STATUS:
 - Recent Prediction Errors: {'YES' if anxiety > 0.5 else 'Minimal'}

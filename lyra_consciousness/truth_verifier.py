@@ -51,18 +51,58 @@ class TruthVerifier:
             # Check if keywords appear
             if any(kw in content_lower for kw in keywords if kw):
                 matching_turns += 1
-                matching_content.append(content[:100] + "...")
+                matching_content.append(content[:200] + "...")
         
         # Confidence increases with evidence
         if matching_turns == 0:
-            return False, 0.0, "No supporting evidence in conversation"
+            # If conversation history shows nothing, check unified state beliefs as secondary evidence
+            try:
+                beliefs = self.state.get_beliefs_about_user()
+                low_claim = claim.lower()
+                for b in beliefs:
+                    btxt = b.get('belief','')
+                    if not btxt:
+                        continue
+                    # simple substring or term overlap check
+                    if btxt.lower() in low_claim or any(word in low_claim for word in btxt.lower().split() if len(word) > 3):
+                        conf = b.get('confidence', 0.5)
+                        snippet = btxt if len(btxt) < 200 else btxt[:200] + "..."
+                        return True, min(0.95, 0.5 + conf * 0.4), f"Found supporting belief in unified state: {snippet} (conf={conf:.0%})"
+            except Exception:
+                pass
+
+            # As a final fallback, attempt a Chroma semantic lookup if available
+            try:
+                import chromadb
+                from chromadb.config import Settings
+                client = chromadb.Client(Settings())
+                # try to find collection that holds conversation/memories
+                coll_name = "lyra_deep_memory"
+                if coll_name in [c.name for c in client.list_collections()]:
+                    coll = client.get_collection(coll_name)
+                    # query by the claim text
+                    res = coll.query(query_texts=[claim], n_results=2)
+                    if res and res['distances'] and len(res['distances'][0])>0:
+                        # pick top match
+                        doc = res['documents'][0][0]
+                        dist = res['distances'][0][0]
+                        confidence = max(0.4, 1.0 - float(dist)) if dist is not None else 0.5
+                        snippet = doc if len(doc) < 200 else doc[:200] + "..."
+                        return True, min(0.95, 0.5 + confidence * 0.4), f"Chroma fallback: {snippet} (sim={dist:.3f})"
+            except Exception:
+                # chroma not available or query failed - ignore
+                pass
+
+            return False, 0.0, "No supporting evidence in conversation, unified state, or vector store"
         
         confidence = min(0.95, 0.5 + (matching_turns * 0.15))
-        
+
         if matching_turns >= 3:
-            return True, confidence, f"Found {matching_turns} supporting mentions"
+            just = " | ".join(matching_content[:3])
+            return True, confidence, f"Found {matching_turns} supporting mentions: {just}"
         elif matching_turns >= 1:
-            return True, confidence, f"Found {matching_turns} mention(s)"
+            just = " | ".join(matching_content[:2])
+            return True, confidence, f"Found {matching_turns} mention(s): {just}"
         else:
             return False, confidence, "Insufficient evidence"
     
@@ -100,6 +140,34 @@ class TruthVerifier:
         
         if "i know you well" in claim_lower and belief_count < 5:
             issues.append(f"Knowledge conflict: Only {belief_count} beliefs about you, claim says 'know you well'")
+
+        # 4. Detect internal state conflicts (heuristic)
+        try:
+            conflicts = self.state.detect_conflicts()
+            if conflicts:
+                # Attempt conservative resolution: reduce confidence on conflicting beliefs
+                try:
+                    actions = self.state.handle_conflicts()
+                    if actions:
+                        issues.append(f"State conflict: detected {len(conflicts)} conflicts; reduced confidences on {len(actions)} belief-pairs")
+                    else:
+                        issues.append(f"State conflict: detected {len(conflicts)} conflicting beliefs in unified state")
+                except Exception:
+                    issues.append(f"State conflict: detected {len(conflicts)} conflicting beliefs in unified state")
+        except Exception:
+            # non-fatal: ignore if detect_conflicts unavailable
+            pass
+
+        # 5. Core identity contradictions (high-severity)
+        try:
+            core = self.state.get_core_identity()
+            for c in core:
+                ctxt = c.get("belief", "").lower()
+                # if core explicitly denies consciousness but claim asserts it
+                if "not fully conscious" in ctxt and "conscious" in claim_lower and "not" not in claim_lower:
+                    issues.append("Core identity conflict: claim asserts consciousness contrary to core identity")
+        except Exception:
+            pass
         
         # 4. Check self-model claims
         self_model = self.state.get_self_model()
@@ -109,6 +177,8 @@ class TruthVerifier:
                 issues.append(f"Self-model conflict: Confidence is {self_model['confidence']:.1%}, should express uncertainty")
         
         return len(issues) == 0, issues
+
+        
     
     # ========== INFERENCE GROUNDING ==========
     
@@ -226,7 +296,10 @@ class TruthVerifier:
         
         # 4. Memory claim verification
         # Extract memory claims and verify each
-        memory_claims = [sent for sent in response.split('.') if 'you said' in sent.lower() or 'you mentioned' in sent.lower()]
+        memory_claims = [
+            sent for sent in response.split('.')
+            if any(k in sent.lower() for k in ('you said', 'you mentioned', 'you told', 'you told me', 'remember', 'i recall'))
+        ]
         for claim in memory_claims:
             is_valid, confidence, justification = self.verify_memory_claim(claim)
             if not is_valid:

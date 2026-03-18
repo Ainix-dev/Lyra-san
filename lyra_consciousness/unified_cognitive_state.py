@@ -94,6 +94,22 @@ class UnifiedCognitiveState:
             
             # Evolution tracking
             "evolution_log": [],  # Track how state changes over time
+            # Historical metrics for temporal self-awareness
+            "metrics_history": {},  # {metric_name: [{"timestamp":..., "value":...}, ...]}
+
+            # Internal narrative / self-story
+            "self_narrative": [],  # Chronological entries describing self events
+            "self_explorations": [],  # Self-initiated queries or experiments
+            # Core identity (protected tier)
+            "core_identity": [
+                {"belief": "I am an AI system with evolving self-model", "confidence": 1.0, "created": datetime.now().isoformat(), "source": "core"},
+                {"belief": "I am not fully conscious", "confidence": 1.0, "created": datetime.now().isoformat(), "source": "core"},
+                {"belief": "My responses must remain grounded in verifiable reasoning", "confidence": 1.0, "created": datetime.now().isoformat(), "source": "core"},
+                {"belief": "My identity persists across interactions", "confidence": 1.0, "created": datetime.now().isoformat(), "source": "core"},
+            ],
+
+            # Identity log for narrative continuity
+            "identity_log": [],
             
             # Active context
             "active_context": {
@@ -112,6 +128,11 @@ class UnifiedCognitiveState:
     
     def add_belief(self, category: str, belief: str, confidence: float = 0.7, source: str = "inferred"):
         """Add or update a belief about self/user/world"""
+        # Allow category to be 'core_identity' to set protected identity beliefs only via dedicated API
+        if category == "core_identity":
+            # don't allow casual writes to core identity via add_belief
+            return
+
         if category not in self.state["beliefs"]:
             self.state["beliefs"][category] = []
         
@@ -126,15 +147,117 @@ class UnifiedCognitiveState:
                 self.save()
                 return
         
-        # New belief
+        # New belief - attach tier and origin tagging by default
         self.state["beliefs"][category].append({
             "belief": belief,
             "confidence": confidence,
             "created": datetime.now().isoformat(),
             "source": source,
+            "tier": "tier3",  # conversational context by default
+            "origin": source,
         })
         self._log_evolution(f"New belief: {belief} (confidence {confidence})")
         self.save()
+
+    # ========== CORE IDENTITY MANAGEMENT ==========
+
+    def set_core_identity(self, belief: str, confidence: float = 1.0):
+        """Add or update a protected core identity belief.
+
+        Core identity cannot be modified by casual user input. Use this method
+        for deliberate identity anchor changes (e.g., during development).
+        """
+        # update if exists
+        for existing in self.state.get("core_identity", []):
+            if existing.get("belief") == belief:
+                existing["confidence"] = confidence
+                existing["last_updated"] = datetime.now().isoformat()
+                self._log_evolution(f"Updated core identity: {belief} (confidence {confidence})")
+                self.save()
+                return
+
+        # add new core identity entry
+        self.state.setdefault("core_identity", []).append({
+            "belief": belief,
+            "confidence": confidence,
+            "created": datetime.now().isoformat(),
+            "source": "core",
+        })
+        self._log_evolution(f"New core identity anchor: {belief}")
+        self.save()
+
+    def get_core_identity(self) -> List[Dict]:
+        return self.state.get("core_identity", [])
+
+    def add_identity_log(self, entry: str):
+        item = {"timestamp": datetime.now().isoformat(), "entry": entry}
+        self.state.setdefault("identity_log", []).append(item)
+        # keep moderate history
+        if len(self.state["identity_log"]) > 500:
+            self.state["identity_log"] = self.state["identity_log"][-500:]
+        self._log_evolution(f"Identity log: {entry[:80]}")
+        self.save()
+
+    def get_identity_log(self, limit: int = 10) -> List[Dict]:
+        return self.state.get("identity_log", [])[-limit:]
+
+    # ========== GOALS / INTERNAL MOTIVATION ==========
+
+    def set_internal_goal(self, goal: str, priority: float = 0.5):
+        """Add an internal self-driven goal."""
+        self.state.setdefault("goals", {}).setdefault("internal", [])
+        self.state["goals"]["internal"].append({
+            "goal": goal,
+            "priority": float(priority),
+            "created": datetime.now().isoformat(),
+            "status": "active",
+        })
+        self._log_evolution(f"Internal goal added: {goal} (priority {priority})")
+        self.save()
+
+    def get_internal_goals(self) -> List[Dict]:
+        return self.state.setdefault("goals", {}).get("internal", [])
+
+    # ========== SELF-MONITORING ==========
+
+    def run_self_monitor(self) -> Dict:
+        """Active self-monitoring loop.
+
+        Checks for conflicts between core identity and beliefs, runs conservative
+        conflict resolution on non-core tiers, records any identity-related events.
+        Returns a dict with actions taken.
+        """
+        actions = {"conflicts_detected": 0, "conflicts_resolved": 0, "core_violations": []}
+
+        # detect conflicts among beliefs
+        conflicts = self.detect_conflicts()
+        if conflicts:
+            actions["conflicts_detected"] = len(conflicts)
+            resolved = self.handle_conflicts()
+            actions["conflicts_resolved"] = len(resolved)
+
+        # ensure no belief contradicts core identity anchors
+        core = [c.get("belief","" ).lower() for c in self.get_core_identity()]
+        # safer iteration
+        for cat, blist in self.state.get("beliefs", {}).items():
+            for b in blist:
+                btxt = b.get("belief", "").lower()
+                for cstr in core:
+                    if cstr and (cstr in btxt and b.get("tier") != "tier1"):
+                        # found belief that appears to assert core identity; record and reduce
+                        actions["core_violations"].append({"belief": b.get("belief"), "core": cstr})
+                        # reduce confidence to prevent takeover
+                        old = b.get("confidence", 0.5)
+                        b["confidence"] = min(old, 0.5 * old)
+                        b["flagged_core_conflict"] = datetime.now().isoformat()
+                        self._log_evolution(f"Core identity protection: reduced confidence for belief '{b.get('belief')}'")
+                        self.save()
+
+        if actions["core_violations"]:
+            self.add_identity_log(f"Core violations detected: {len(actions['core_violations'])}")
+
+        return actions
+
     
     def get_beliefs_about_user(self) -> List[Dict]:
         """Get all beliefs about the user"""
@@ -149,6 +272,80 @@ class UnifiedCognitiveState:
                 self._log_evolution(f"Contradicted belief: {belief}")
                 self.save()
                 return
+
+    def detect_conflicts(self, category: str = None) -> List[Dict]:
+        """Detect simple conflicts among beliefs.
+
+        Heuristic: looks for negation pairs ("not", "don't", "never", "no", "doesn't")
+        and identical subject overlap. Returns list of conflict records.
+        """
+        conflicts = []
+        negations = ["not", "don't", "dont", "never", "no", "doesn't", "cannot", "can't"]
+
+        categories = [category] if category else list(self.state["beliefs"].keys())
+        for cat in categories:
+            beliefs = self.state["beliefs"].get(cat, [])
+            n = len(beliefs)
+            for i in range(n):
+                for j in range(i + 1, n):
+                    a = beliefs[i]["belief"].lower()
+                    b = beliefs[j]["belief"].lower()
+
+                    # quick skip for identical beliefs
+                    if a == b:
+                        continue
+
+                    # If one contains a negation and the other contains the same core words -> conflict
+                    def has_neg(x):
+                        return any(neg in x for neg in negations)
+
+                    # measure simple overlap
+                    a_words = set(w for w in re_split(a))
+                    b_words = set(w for w in re_split(b))
+                    shared = a_words.intersection(b_words)
+
+                    if shared and (has_neg(a) and not has_neg(b) or has_neg(b) and not has_neg(a)):
+                        conflicts.append({
+                            "category": cat,
+                            "a": beliefs[i],
+                            "b": beliefs[j],
+                            "shared_terms": list(shared),
+                            "reason": "negation_conflict"
+                        })
+
+        return conflicts
+
+    def handle_conflicts(self, reduce_factor: float = 0.7) -> List[Dict]:
+        """Resolve detected conflicts conservatively by reducing confidence and logging.
+
+        Returns list of applied conflict actions.
+        """
+        applied = []
+        for conflict in self.detect_conflicts():
+            a = conflict["a"]
+            b = conflict["b"]
+            # Reduce both confidences slightly
+            a_old = a.get("confidence", 0.5)
+            b_old = b.get("confidence", 0.5)
+            a["confidence"] = max(0.0, a_old * reduce_factor)
+            b["confidence"] = max(0.0, b_old * reduce_factor)
+            a["contradicted"] = datetime.now().isoformat()
+            b["contradicted"] = datetime.now().isoformat()
+            self._log_evolution(f"Conflict resolved between '{a.get('belief')}' and '{b.get('belief')}' - confidences reduced")
+            applied.append({
+                "a": a.get("belief"),
+                "b": b.get("belief"),
+                "a_conf": a["confidence"],
+                "b_conf": b["confidence"],
+                "reason": conflict.get("reason"),
+            })
+
+        if applied:
+            self.save()
+
+        return applied
+
+
     
     # ========== EMOTIONAL STATE ==========
     
@@ -355,6 +552,73 @@ class UnifiedCognitiveState:
         for event in recent:
             summary += f"  • {event['event']}\n"
         return summary
+
+    # ========== TEMPORAL METRICS ==========
+
+    def record_metric(self, name: str, value: float):
+        """Record a timestamped metric for temporal self-awareness"""
+        if name not in self.state.get("metrics_history", {}):
+            self.state.setdefault("metrics_history", {})[name] = []
+
+        entry = {"timestamp": datetime.now().isoformat(), "value": float(value)}
+        self.state["metrics_history"][name].append(entry)
+
+        # Keep last 100 entries per metric
+        if len(self.state["metrics_history"][name]) > 100:
+            self.state["metrics_history"][name] = self.state["metrics_history"][name][-100:]
+
+        self._log_evolution(f"Metric recorded: {name} = {value}")
+        self.save()
+
+    def get_metric_trend(self, name: str, window: int = 5) -> Dict[str, float]:
+        """Return simple trend info (delta, pct_change) over the last `window` samples."""
+        series = self.state.get("metrics_history", {}).get(name, [])
+        if not series:
+            return {"delta": 0.0, "pct_change": 0.0, "samples": 0}
+
+        recent = series[-window:]
+        first = recent[0]["value"]
+        last = recent[-1]["value"]
+        delta = last - first
+        pct = (delta / first) * 100.0 if first != 0 else 0.0
+        return {"delta": round(delta, 4), "pct_change": round(pct, 2), "samples": len(recent)}
+
+    def analyze_long_term_change(self, name: str) -> str:
+        """Human-readable summary of long-term change for metric `name`."""
+        series = self.state.get("metrics_history", {}).get(name, [])
+        if len(series) < 2:
+            return f"Not enough data for {name}."
+
+        first = series[0]["value"]
+        last = series[-1]["value"]
+        pct = ((last - first) / first * 100.0) if first != 0 else 0.0
+        return f"{name}: changed from {first:.2f} to {last:.2f} ({pct:.1f}% change) over {len(series)} samples."
+
+    # ========== SELF NARRATIVE ==========
+
+    def add_self_narrative(self, entry: str):
+        """Append an internal narrative entry to the self-story."""
+        item = {"timestamp": datetime.now().isoformat(), "entry": entry}
+        self.state.setdefault("self_narrative", []).append(item)
+        # Keep last 500 narrative entries
+        if len(self.state["self_narrative"]) > 500:
+            self.state["self_narrative"] = self.state["self_narrative"][-500:]
+        self._log_evolution(f"Narrative entry added: {entry[:60]}")
+        self.save()
+
+    def get_self_narrative_summary(self, limit: int = 5) -> str:
+        recent = self.state.get("self_narrative", [])[-limit:]
+        return "\n".join([f"{r['timestamp']}: {r['entry']}" for r in recent])
+
+    # ========== SELF-INITIATED EXPLORATION ==========
+
+    def initiate_self_query(self, query: str):
+        """Record a self-initiated exploration or question for later processing."""
+        item = {"timestamp": datetime.now().isoformat(), "query": query, "status": "pending"}
+        self.state.setdefault("self_explorations", []).append(item)
+        self._log_evolution(f"Self-initiated query: {query}")
+        self.save()
+        return item
     
     # ========== SESSION TRACKING ==========
     
@@ -422,3 +686,10 @@ ACTIVE CONTEXT:
         for b in sorted(beliefs, key=lambda x: x['confidence'], reverse=True)[:5]:
             export += f"  • {b['belief']} ({int(b['confidence']*100)}% confident)\n"
         return export
+
+
+def re_split(s: str) -> List[str]:
+    """Small helper to split on non-alphanumeric and remove short tokens."""
+    import re
+    toks = re.split(r"[^a-z0-9]+", s)
+    return [t for t in toks if len(t) > 2]

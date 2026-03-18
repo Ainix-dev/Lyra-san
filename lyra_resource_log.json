@@ -1,65 +1,22 @@
 [
   {
-    "cpu": 32.8,
-    "memory": 35.6,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:21:13.389002",
-    "stress": 0.3604,
-    "mode": "normal"
-  },
-  {
-    "cpu": 39.7,
-    "memory": 35.8,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:24:05.828485",
-    "stress": 0.25680000000000003,
-    "mode": "normal"
-  },
-  {
-    "cpu": 38.3,
-    "memory": 35.1,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:27:09.158964",
-    "stress": 0.2586,
-    "mode": "normal"
-  },
-  {
-    "cpu": 71.7,
-    "memory": 35.7,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:29:07.887534",
-    "stress": 0.25880000000000003,
-    "mode": "normal"
-  },
-  {
-    "cpu": 36.2,
-    "memory": 35.4,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:30:35.254896",
-    "stress": 0.2584,
-    "mode": "normal"
-  },
-  {
-    "cpu": 65.0,
-    "memory": 35.7,
-    "disk": 53.2,
-    "battery": null,
-    "timestamp": "2026-03-18T12:32:38.302286",
-    "stress": 0.25920000000000004,
-    "mode": "caution"
-  },
-  {
     "cpu": 36.7,
-    "memory": 35.5,
-    "disk": 53.2,
+    "memory": 48.9,
+    "disk": 53.3,
     "battery": null,
-    "timestamp": "2026-03-18T12:33:40.504727",
-    "stress": 0.2576,
-    "mode": "normal"
+    "timestamp": "2026-03-18T14:41:15.433633",
+    "stress": 0.3046,
+    "mode": "caution",
+    "energy": 0.6874
+  },
+  {
+    "cpu": 33.9,
+    "memory": 48.6,
+    "disk": 53.3,
+    "battery": null,
+    "timestamp": "2026-03-18T14:44:57.677121",
+    "stress": 0.3048,
+    "mode": "caution",
+    "energy": 0.6921999999999999
   }
 ]

@@ -9,6 +9,9 @@ from lyra_consciousness.epistemic_enforcer import EpistemicEnforcer, apply_hard_
 from lyra_consciousness.truth_verifier import TruthVerifier
 from lyra_consciousness.stage_4_system_prompt import STAGE_4_SYSTEM_PROMPT, get_constraint_reminder
 from typing import Dict, Tuple, List
+import json
+import os
+from datetime import datetime
 
 
 class Stage4Pipeline:
@@ -22,6 +25,8 @@ class Stage4Pipeline:
         self.enforcer = EpistemicEnforcer(unified_state)
         self.verifier = TruthVerifier(unified_state)
         self.conversation_history = []
+        # runtime behavior toggles
+        self.strict_blocking = False
     
     def update_conversation_history(self, history: List[Tuple[str, str]]):
         """Update conversation for truth verification"""
@@ -68,6 +73,11 @@ class Stage4Pipeline:
         
         # 6. Should we block entirely?
         should_block, block_reason = self.verifier.should_block_response(corrected_response)
+
+        # 6b. If strict blocking mode is enabled, block on any violation
+        if self.strict_blocking and (len(all_violations) > 0 or len(all_warnings) > 0):
+            should_block = True
+            block_reason = block_reason or "Strict blocking: violations/warnings present"
         
         # 7. Build report
         report = {
@@ -123,8 +133,27 @@ class Stage4Pipeline:
         
         Returns final response ready to send.
         """
-        is_valid, corrected, report = self.verify_response(response)
-        
+        # First, remove internal monologue so verification runs on the intended reply
+        cleaned = self._suppress_internal_monologue(response)
+
+        # Run active self-monitoring to detect core identity conflicts and resolve
+        try:
+            monitor_actions = self.state.run_self_monitor()
+            if monitor_actions.get("core_violations"):
+                # Prepend protective note to prevent sending statements that contradict core identity
+                cleaned = "[CORE PROTECTION] I cannot accept claims that contradict my core identity. " + cleaned
+        except Exception:
+            monitor_actions = {}
+
+        is_valid, corrected, report = self.verify_response(cleaned)
+
+        # Persist verification report for auditing
+        try:
+            self._persist_report(report)
+        except Exception:
+            # non-fatal: do not block sending if persistence fails
+            pass
+
         # If there were corrections and user wants to see them
         if show_corrections and report["corrections_made"]:
             correction_note = "\n---\n⚠️  [CORRECTION APPLIED]\n"
@@ -137,10 +166,68 @@ class Stage4Pipeline:
             
             return corrected + correction_note
         
-        # Apply epistemic tags for clarity
-        tagged_response = self.apply_epistemic_tags(corrected)
-        
-        return tagged_response
+        # Apply epistemic auto-tagging using the enforcer (if available)
+        tagged = corrected
+        try:
+            if hasattr(self, 'enforcer') and self.enforcer:
+                tagged = self.enforcer.auto_tag_response(corrected, self.conversation_history)
+        except Exception:
+            # Fallback to lightweight tagging
+            tagged = self.apply_epistemic_tags(corrected)
+
+        # Log whether suppression removed anything (helpful for debugging leaked monologue)
+        try:
+            if cleaned != response:
+                print(f"[STAGE4] Internal monologue suppressed ({len(response)-len(cleaned)} chars removed)")
+        except Exception:
+            pass
+
+        return tagged
+
+    def _suppress_internal_monologue(self, text: str) -> str:
+        """
+        Remove or mark internal monologue blocks from the outgoing text.
+        Looks for marker lines starting with '✦ Internal Monologue' and
+        removes until the next blank line.
+        """
+        import re
+
+        cleaned = text
+
+        # Remove bracketed/internal markers and the block that follows until a blank line
+        patterns = [
+            r"(?is)\[?✦?\s*Internal Monologue[^\]]*\]?\s*\n.*?(?=\n\s*\n|$)",
+            r"(?is)^✦.*Internal Monologue.*$\n.*?(?=\n\s*\n|$)",
+            r"(?is)\[Internal Monologue[^\]]*\].*?(?=\n\s*\n|$)",
+        ]
+
+        for pat in patterns:
+            try:
+                cleaned = re.sub(pat, "", cleaned)
+            except Exception:
+                pass
+
+        # Also remove any leftover short monologue markers like lines starting with '✦'
+        cleaned = re.sub(r"(?m)^\s*✦.*$", "", cleaned)
+
+        # Collapse multiple blank lines
+        cleaned = re.sub(r"\n{2,}", "\n\n", cleaned).strip()
+
+        return cleaned
+
+    def _persist_report(self, report: Dict):
+        """Write verification report JSON to `lyra_consciousness/reports/` with timestamp."""
+        dirpath = os.path.join(os.path.dirname(__file__), "reports")
+        os.makedirs(dirpath, exist_ok=True)
+        ts = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        # safe short id
+        fname = f"stage4_report_{ts}.json"
+        fpath = os.path.join(dirpath, fname)
+        # augment report with save time
+        out = dict(report)
+        out["saved_at"] = datetime.utcnow().isoformat()
+        with open(fpath, "w") as f:
+            json.dump(out, f, indent=2)
     
     def generate_verification_report(self, response: str) -> str:
         """

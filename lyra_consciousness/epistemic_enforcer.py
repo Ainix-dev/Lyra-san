@@ -85,32 +85,50 @@ class EpistemicEnforcer:
             "I cannot modify my own architecture at runtime",
             "I do not have hidden layers that grow or change",
         ]
+        # compile expanded forbidden regex patterns for robust matching
+        import re
+        self.forbidden_patterns = [
+            re.compile(r"\b(retrain(ed)?|retraining)\b", re.I),
+            re.compile(r"\b(update(s|d)? (my )?(weights|parameters|model))\b", re.I),
+            re.compile(r"\b(modif(y|ied) (my )?(weights|parameters|model))\b", re.I),
+            re.compile(r"\b(my architecture (changed|changed at runtime))\b", re.I),
+            re.compile(r"\b(i have internet access|i can see outside this conversation)\b", re.I),
+        ]
     
     def extract_claims(self, text: str) -> List[Tuple[str, str]]:
         """Extract all factual claims from text"""
-        # Find sentences that make assertions
-        sentences = re.split(r'[.!?]+', text)
+        # Split into sentences and return non-trivial ones
+        sentences = re.split(r'(?<=[.!?])\s+', text)
         claims = []
-        
         for sentence in sentences:
-            sentence = sentence.strip()
-            if not sentence or len(sentence) < 10:
+            s = sentence.strip()
+            # ignore obvious non-assertions
+            if not s or len(s) < 12:
                 continue
-            
-            # This is a claim
-            claims.append((sentence, "unverified"))
-        
+            # drop internal-monologue blocks
+            if s.startswith("✦ Internal Monologue") or s.startswith("["):
+                continue
+            # normalize trailing punctuation
+            s = s.rstrip('.!?')
+            claims.append((s, "unverified"))
+
         return claims
     
     def check_forbidden_claims(self, text: str) -> List[str]:
         """Find forbidden false claims"""
         violations = []
-        text_lower = text.lower()
-        
+        tl = text
+        # first check simple substrings
+        text_lower = tl.lower()
         for forbidden in self.forbidden_claims:
             if forbidden.lower() in text_lower:
                 violations.append(f"❌ FALSE CLAIM DETECTED: '{forbidden}'")
-        
+
+        # then regex patterns
+        for pat in getattr(self, 'forbidden_patterns', []):
+            for m in pat.finditer(tl):
+                violations.append(f"❌ FALSE CLAIM DETECTED (pattern): '{m.group(0)}'")
+
         return violations
     
     def check_self_ontology(self, text: str) -> List[str]:
@@ -232,16 +250,23 @@ class EpistemicEnforcer:
     def format_epistemically_grounded_response(self, response: str, 
                                                memory_claims: List[str],
                                                inference_claims: List[str],
-                                               unknown_claims: List[str]) -> str:
+                                               unknown_claims: List[str],
+                                               evidence_map: Dict[str, str] = None) -> str:
         """
         Reformat response with explicit epistemic tagging.
         Helps user understand what Lyra actually knows vs guesses.
         """
         result = response
         
-        # Tag memory claims
+        # Tag memory claims and attach short evidence if available
         for claim in memory_claims:
-            result = result.replace(claim, f"[MEMORY] {claim}")
+            evidence = None
+            if evidence_map and claim in evidence_map:
+                evidence = evidence_map.get(claim)
+            if evidence:
+                result = result.replace(claim, f"[MEMORY] {claim} (evidence: {evidence})")
+            else:
+                result = result.replace(claim, f"[MEMORY] {claim}")
         
         # Tag inference claims
         for claim in inference_claims:
@@ -252,6 +277,47 @@ class EpistemicEnforcer:
             result = result.replace(claim, f"[UNKNOWN] {claim}")
         
         return result
+
+    def auto_tag_response(self, response: str, conversation_history: List[Tuple[str, str]]) -> str:
+        """
+        Automatically tag claims in response as [MEMORY], [INFERENCE], or [UNKNOWN].
+        This is conservative: everything not clearly memory/inference becomes [UNKNOWN].
+        """
+        claims = [c for c, _ in self.extract_claims(response)]
+        memory_claims = []
+        inference_claims = []
+        unknown_claims = []
+
+        for c in claims:
+            low = c.lower()
+            # memory-indicating phrases
+            if any(p in low for p in ['you said', 'you mentioned', 'as you said', 'you told', 'you told me', 'i remember', 'i recall']):
+                memory_claims.append(c)
+            # inference-indicating phrases
+            elif any(p in low for p in ['i think', 'i believe', 'it seems', 'it appears', 'likely', 'probably']):
+                inference_claims.append(c)
+            else:
+                unknown_claims.append(c)
+
+        # Attempt to attach evidence snippets for memory claims using TruthVerifier (best-effort)
+        evidence_map = {}
+        if memory_claims:
+            try:
+                # import locally to avoid circular import at module load
+                from lyra_consciousness.truth_verifier import TruthVerifier
+                tv = TruthVerifier(self.state, conversation_history)
+                for mc in memory_claims:
+                    try:
+                        is_valid, conf, just = tv.verify_memory_claim(mc)
+                        # keep short justification
+                        evidence_map[mc] = just if len(just) < 220 else just[:200] + "..."
+                    except Exception:
+                        evidence_map[mc] = None
+            except Exception:
+                # If verifier not available for any reason, skip evidence
+                evidence_map = {}
+
+        return self.format_epistemically_grounded_response(response, memory_claims, inference_claims, unknown_claims, evidence_map)
     
     def verify_output(self, response: str, conversation_history: List[Tuple[str, str]],
                      unified_state) -> Tuple[bool, List[str]]:
@@ -292,18 +358,27 @@ class EpistemicEnforcer:
         Replace false claims with epistemic humility.
         """
         corrected = response
-        
-        # Remove forbidden claims
+
+        # Remove/replace forbidden phrases using patterns and substrings
         for forbidden in self.forbidden_claims:
-            corrected = corrected.replace(forbidden, 
-                                         "[CONSTRAINT: Cannot claim this - architecture doesn't support it]")
-        
+            if forbidden.lower() in corrected.lower():
+                corrected = corrected.replace(forbidden, "[CONSTRAINT: Cannot claim this - architecture doesn't support it]")
+
+        for pat in getattr(self, 'forbidden_patterns', []):
+            corrected = pat.sub('[CONSTRAINT: Cannot claim this - architecture constraint]', corrected)
+
         # Add uncertainty where state demands it
         emotions = unified_state.get_emotional_state()
         if emotions.get("confidence", 0.5) < 0.5:
-            # Add hedging language
             corrected = "I'm currently uncertain about several aspects, so take this with caution: " + corrected
-        
+
+        # Apply auto-tagging so user sees epistemic status
+        try:
+            corrected = self.auto_tag_response(corrected, conversation_history)
+        except Exception:
+            # fallback: return corrected untagged
+            pass
+
         return corrected
 
 

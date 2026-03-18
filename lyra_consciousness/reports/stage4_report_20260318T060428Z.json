@@ -1,0 +1,12 @@
+{
+  "original_response": "Let's play a round of \"Knock, Knock\"!\n\nI'll start: Knock, knock!\n\n(Your turn! Reply with \"Who's there?\", and we can continue the game.)",
+  "corrected_response": "Let's play a round of \"Knock, Knock\"!\n\nI'll start: Knock, knock!\n\n(Your turn! Reply with \"Who's there?\", and we can continue the game.)",
+  "is_valid": true,
+  "block_reason": null,
+  "hard_violations": [],
+  "epistemic_violations": [],
+  "truth_violations": [],
+  "warnings": [],
+  "corrections_made": false,
+  "saved_at": "2026-03-18T06:04:28.499983"
+}
